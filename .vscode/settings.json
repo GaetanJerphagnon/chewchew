@@ -1,5 +1,12 @@
 {
     "cSpell.words": [
-        "inversed"
+        "autoload",
+        "autoloader",
+        "ctype",
+        "docblock",
+        "inversed",
+        "phpdocumentor",
+        "phpunit",
+        "sensio"
     ]
 }
