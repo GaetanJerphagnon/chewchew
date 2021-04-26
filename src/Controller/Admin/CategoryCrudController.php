@@ -34,7 +34,7 @@ class CategoryCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('Category')
             ->setEntityLabelInPlural('Categories')
-            ->setSearchFields(['restaurants', 'products', 'name'])
+            //->setSearchFields(['restaurants.name', 'products.name', 'name'])
             ->setDefaultSort(['createdAt' => 'DESC']);
         ;
     }

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Restaurant;
+use App\Entity\Product;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -12,15 +12,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 
-class RestaurantCrudController extends AbstractCrudController
+class ProductCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Restaurant::class;
+        return Product::class;
     }
 
     public function configureActions(Actions $actions): Actions 
@@ -32,28 +32,28 @@ class RestaurantCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setEntityLabelInSingular('Retaurant')
-            ->setEntityLabelInPlural('Restaurants')
-            ->setSearchFields(['categories', 'products', 'name'])
-            ->setDefaultSort(['createdAt' => 'DESC']);
+            ->setEntityLabelInSingular('Product')
+            ->setEntityLabelInPlural('Products')
+            /* ->setSearchFields(['categories', 'products', 'name'])
+            ->setDefaultSort(['createdAt' => 'DESC']); */
         ;
     }
 
-    public function configureFilters(Filters $filters): Filters
+    /* public function configureFilters(Filters $filters): Filters
     {
         return $filters
             ->add(EntityFilter::new('categories'))
         ;
-    }
+    } */
     
     public function configureFields(string $pageName): iterable
     {
 
         if($pageName === Crud::PAGE_DETAIL){
-            $products = ArrayField::new('products', 'Products');
+            $menus = ArrayField::new('menus', 'Menus');
             $categories = ArrayField::new('categories', 'Categories');
         } else {
-            $products = AssociationField::new('products', 'Products');
+            $menus = AssociationField::new('menus', 'Menus');
             $categories = AssociationField::new('categories', 'Categories');
         }
 
@@ -61,14 +61,14 @@ class RestaurantCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             TextField::new('name'),
             TextField::new('slug')->onlyOnDetail(),
+            IntegerField::new('price'),
             TextareaField::new('description'),
-            TextField::new('address'),
-            TextField::new('phone'),
             TextField::new('pictureUrl'),
-            $products,
+            AssociationField::new('restaurant'),
+            $menus->hideOnForm(),
             $categories,
+            DateTimeField::new('createdAt')->onlyOnDetail(),
             DateTimeField::new('createdAt')->hideOnForm(),
         ];
     }
-   
 }

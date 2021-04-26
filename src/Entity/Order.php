@@ -49,6 +49,16 @@ class Order
 
     }
 
+    public function __toString()
+    {
+        $total = 0; 
+        foreach($this->products as $product){
+            $total += $product->getPrice();
+        }
+
+        return "At " . $this->restaurant->getName() . " for " . $total . " the " . $this->createdAt->format("Y/m/d H:i:s");
+    } 
+
     public function getId(): ?int
     {
         return $this->id;
