@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -34,8 +35,8 @@ class ProductCrudController extends AbstractCrudController
         return $crud
             ->setEntityLabelInSingular('Product')
             ->setEntityLabelInPlural('Products')
-            /* ->setSearchFields(['categories', 'products', 'name'])
-            ->setDefaultSort(['createdAt' => 'DESC']); */
+            /* ->setSearchFields(['categories', 'products', 'name'])*/
+            ->setDefaultSort(['createdAt' => 'DESC']); 
         ;
     }
 
@@ -61,14 +62,14 @@ class ProductCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             TextField::new('name'),
             TextField::new('slug')->onlyOnDetail(),
-            IntegerField::new('price'),
+            MoneyField::new('price')->setCurrency('EUR'),
             TextareaField::new('description'),
             TextField::new('pictureUrl'),
             AssociationField::new('restaurant'),
             $menus->hideOnForm(),
             $categories,
-            DateTimeField::new('createdAt')->onlyOnDetail(),
             DateTimeField::new('createdAt')->hideOnForm(),
+            DateTimeField::new('updatedAt')->onlyOnDetail(),
         ];
     }
 }

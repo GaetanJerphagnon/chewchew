@@ -12,6 +12,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
@@ -63,7 +64,7 @@ class RestaurantCrudController extends AbstractCrudController
             TextField::new('slug')->onlyOnDetail(),
             TextareaField::new('description'),
             TextField::new('address'),
-            TextField::new('phone'),
+            TelephoneField::new('phone'),
             TextField::new('pictureUrl'),
             $products,
             $categories,

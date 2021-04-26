@@ -42,10 +42,16 @@ class Order
      */
     private $user;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Menu::class, inversedBy="orders")
+     */
+    private $menus;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
+        $this->menus = new ArrayCollection();
 
     }
 
@@ -120,6 +126,30 @@ class Order
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Menu[]
+     */
+    public function getMenus(): Collection
+    {
+        return $this->menus;
+    }
+
+    public function addMenu(Menu $menu): self
+    {
+        if (!$this->menus->contains($menu)) {
+            $this->menus[] = $menu;
+        }
+
+        return $this;
+    }
+
+    public function removeMenu(Menu $menu): self
+    {
+        $this->menus->removeElement($menu);
 
         return $this;
     }
