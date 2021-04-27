@@ -47,6 +47,11 @@ class Order
      */
     private $menus;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $total;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -150,6 +155,18 @@ class Order
     public function removeMenu(Menu $menu): self
     {
         $this->menus->removeElement($menu);
+
+        return $this;
+    }
+
+    public function getTotal(): ?int
+    {
+        return $this->total;
+    }
+
+    public function setTotal(int $total): self
+    {
+        $this->total = $total;
 
         return $this;
     }

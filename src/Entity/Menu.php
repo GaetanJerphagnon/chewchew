@@ -67,6 +67,11 @@ class Menu
 
     }
 
+    public function __toString()
+    {
+        return $this->name. " - ". $this->price ."€";
+    }
+
     public function getId(): ?int
     {
         return $this->id;
