@@ -42,12 +42,33 @@ class Order
      */
     private $user;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Menu::class, inversedBy="orders")
+     */
+    private $menus;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $total;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
+        $this->menus = new ArrayCollection();
 
     }
+
+    public function __toString()
+    {
+        $total = 0; 
+        foreach($this->products as $product){
+            $total += $product->getPrice();
+        }
+
+        return "At " . $this->restaurant->getName() . " for " . $total . " the " . $this->createdAt->format("Y/m/d H:i:s");
+    } 
 
     public function getId(): ?int
     {
@@ -110,6 +131,42 @@ class Order
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Menu[]
+     */
+    public function getMenus(): Collection
+    {
+        return $this->menus;
+    }
+
+    public function addMenu(Menu $menu): self
+    {
+        if (!$this->menus->contains($menu)) {
+            $this->menus[] = $menu;
+        }
+
+        return $this;
+    }
+
+    public function removeMenu(Menu $menu): self
+    {
+        $this->menus->removeElement($menu);
+
+        return $this;
+    }
+
+    public function getTotal(): ?int
+    {
+        return $this->total;
+    }
+
+    public function setTotal(int $total): self
+    {
+        $this->total = $total;
 
         return $this;
     }

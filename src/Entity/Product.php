@@ -69,6 +69,11 @@ class Product
      */
     private $orders;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->menus = new ArrayCollection();
@@ -77,6 +82,12 @@ class Product
         $this->createdAt = new \DateTime('now');
 
     }
+
+    public function __toString()
+    {
+        return $this->name. " - ". $this->price ."€";
+    }
+
 
     public function getId(): ?int
     {
@@ -244,6 +255,18 @@ class Product
         if ($this->orders->removeElement($order)) {
             $order->removeProduct($this);
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

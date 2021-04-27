@@ -55,7 +55,7 @@ class Restaurant
     private $products;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Category::class, mappedBy="restaurants")
+     * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="restaurants")
      */
     private $categories;
 
@@ -64,6 +64,16 @@ class Restaurant
      */
     private $orders;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $slug;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -71,6 +81,11 @@ class Restaurant
         $this->orders = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
 
+    }
+
+    public function __toString ()
+    {
+        return $this->name;
     }
 
     public function getId(): ?int
@@ -233,6 +248,30 @@ class Restaurant
                 $order->setRestaurant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

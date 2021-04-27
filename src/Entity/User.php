@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -82,11 +81,21 @@ class User implements UserInterface
      */
     private $cart;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
 
+    }
+
+    public function __toString()
+    {
+        return $this->firstname." ".$this->lastname;
     }
 
     public function getId(): ?int
@@ -297,6 +306,18 @@ class User implements UserInterface
         }
 
         $this->cart = $cart;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
