@@ -54,11 +54,22 @@ class Menu
      */
     private $slug;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Order::class, mappedBy="menus")
+     */
+    private $orders;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
+        $this->orders = new ArrayCollection();
 
+    }
+
+    public function __toString()
+    {
+        return $this->name. " - ". $this->price ."€";
     }
 
     public function getId(): ?int
@@ -158,6 +169,33 @@ class Menu
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->addMenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            $order->removeMenu($this);
+        }
 
         return $this;
     }

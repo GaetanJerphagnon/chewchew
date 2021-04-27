@@ -7,49 +7,39 @@ App\Entity\User:
     cart: "@cart_1"
     firstname: "<firstName()>"
     lastname: "<lastName()>"
-    slug: "<slug()>"
     email: "user1@google.com"
     slug (unique): "<slug()>"
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$m46/voMLL8qJy9zdOsLf8Q\$SYOjShFLsfYkjwyCas3RW06MQgAMORNyymQV6Hu3DGk'
     birthday: '<dateTimeBetween("-60 years", "-18 years")>'
     lastConnection: '<dateTimeBetween("-20 days", "now")>'
-    created_at: '<dateTimeBetween("-20 days", "now")>'
   user_2:
     picture_url: "avatar2.png"
     cart: "@cart_2"
     firstname: "<firstName()>"
     lastname: "<lastName()>"
-    slug: "<slug()>"
     email: "user2@yahoo.com"
-    slug (unique): "<slug()>"
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$m46/voMLL8qJy9zdOsLf8Q\$SYOjShFLsfYkjwyCas3RW06MQgAMORNyymQV6Hu3DGk'
     birthday: '<dateTimeBetween("-60 years", "-18 years")>'
     lastConnection: '<dateTimeBetween("-20 days", "now")>'
-    created_at: '<dateTimeBetween("-20 days", "now")>'
   user_3:
     picture_url: "avatar3.png"
     cart: "@cart_3"
     firstname: "<firstName()>"
     lastname: "<lastName()>"
-    slug: "<slug()>"
     email: "user3@google.com"
-    slug (unique): "<slug()>"
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$m46/voMLL8qJy9zdOsLf8Q\$SYOjShFLsfYkjwyCas3RW06MQgAMORNyymQV6Hu3DGk'
     birthday: '<dateTimeBetween("-60 years", "-18 years")>'
     lastConnection: '<dateTimeBetween("-20 days", "now")>'
-    created_at: '<dateTimeBetween("-20 days", "now")>'
   user_4:
     picture_url: "avatar4.png"
     cart: "@cart_4"
     firstname: "<firstName()>"
     lastname: "<lastName()>"
-    slug: "<slug()>"
     email: "user4@google.com"
     slug (unique): "<slug()>"
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$m46/voMLL8qJy9zdOsLf8Q\$SYOjShFLsfYkjwyCas3RW06MQgAMORNyymQV6Hu3DGk'
     birthday: '<dateTimeBetween("-60 years", "-18 years")>'
     lastConnection: '<dateTimeBetween("-20 days", "now")>'
-    created_at: '<dateTimeBetween("-20 days", "now")>'
 
 App\Entity\Cart:
   cart_{1..4}:
@@ -58,15 +48,13 @@ App\Entity\Cart:
 App\Entity\Category:
   category_{1..10}:
     name: "<country()>"
-    slug: "<slug()>"
     description: "<text(200)>"
 
 App\Entity\Product:
   product_{1..50}:
     name: "<word()>"
-    slug: "<slug()>"
     description: "<text(200)>"
-    price: "<numberBetween(5, 100)>"
+    price: "<numberBetween(500, 10000)>"
     picture_url: "<url()>"
     categories: ["@category_*"]
     restaurant: "@restaurant_*"
@@ -74,15 +62,22 @@ App\Entity\Product:
 App\Entity\Order:
   order_{1..15}:
     user: "@user_*"
-    created_at: '<dateTimeBetween("-20 days", "now")>'
     restaurant: "@restaurant_*"
     products: ["@product_*", "@product_*"]
 
+App\Entity\Menu:
+  menu_{1..15}:
+    name: "<word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    orders: ["@order_*", "@order_*"]
+    products: ["@product_*", "@product_*"]
+
 App\Entity\Restaurant:
-  restaurant_{1..8}:
+  restaurant_{1..20}:
     name: "<company()>"
-    slug: "<slug()>"
-    picture_url: "<url()>"
-    categories: ["@category_*"]
-    phone: "<phoneNumber()>"
     address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture_url: "<url()>"
+    categories: ["@category_*", "@category_*"]
+    description: "<text(200)>"
