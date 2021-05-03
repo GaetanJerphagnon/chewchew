@@ -3,18 +3,23 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use Doctrine\ORM\QueryBuilder;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -23,13 +28,25 @@ class UserCrudController extends AbstractCrudController
         return User::class;
     }
 
+    public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
+    {
+        $qb = $this->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
+
+        if ($this->isGranted('ROLE_RESTAURATEUR')) {
+            $qb->andWhere('entity.id = :user');
+            $qb->setParameter('user', $this->getUser()->getId());
+
+        }
+
+        return $qb;
+    }
+
     public function configureActions(Actions $actions): Actions 
     {
         return $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->remove(Crud::PAGE_INDEX, Action::EDIT)
-            ->remove(Crud::PAGE_INDEX, Action::DELETE)
-            ->remove(Crud::PAGE_INDEX, Action::NEW);
+            ->remove(Crud::PAGE_DETAIL, Action::INDEX)
+            ->disable(Action::NEW, Action::DELETE);
     }
 
     
@@ -57,19 +74,20 @@ class UserCrudController extends AbstractCrudController
         }
 
         return [
-            IdField::new('id')->hideOnForm(),
+            IdField::new('id')->hideOnForm()->setPermission('ROLE_ADMIN'),
             TextField::new('firstname'),
             TextField::new('lastname'),
+            TextField::new('address'),
             EmailField::new('email'),
             TextField::new('slug')->onlyOnDetail(),
-            ArrayField::new('roles')->hideOnForm(),
+            ArrayField::new('roles')->hideOnForm()->setPermission('ROLE_ADMIN'),
             DateField::new('birthday'),
             TextField::new('pictureUrl'),
             DateTimeField::new('lastConnection')->onlyOnDetail(),
             $orders->hideOnForm(),
-            $cart->hideOnForm(),
-            DateTimeField::new('createdAt')->hideOnForm(),
-            DateTimeField::new('updatedAt')->onlyOnDetail(),
+            $cart->hideOnForm()->setPermission('ROLE_ADMIN'),
+            DateTimeField::new('createdAt')->hideOnForm()->setPermission('ROLE_ADMIN'),
+            DateTimeField::new('updatedAt')->onlyOnDetail()->setPermission('ROLE_ADMIN'),
         ];
     }
    

@@ -77,7 +77,7 @@ class User implements UserInterface
     private $updatedAt;
 
     /**
-     * @ORM\OneToOne(targetEntity=Cart::class, mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Cart::class, mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $cart;
 
@@ -86,10 +86,21 @@ class User implements UserInterface
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Restaurant::class, mappedBy="owner")
+     */
+    private $restaurants;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $address;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
+        $this->restaurants = new ArrayCollection();
 
     }
 
@@ -318,6 +329,48 @@ class User implements UserInterface
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Restaurant[]
+     */
+    public function getRestaurants(): Collection
+    {
+        return $this->restaurants;
+    }
+
+    public function addRestaurant(Restaurant $restaurant): self
+    {
+        if (!$this->restaurants->contains($restaurant)) {
+            $this->restaurants[] = $restaurant;
+            $restaurant->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRestaurant(Restaurant $restaurant): self
+    {
+        if ($this->restaurants->removeElement($restaurant)) {
+            // set the owning side to null (unless already changed)
+            if ($restaurant->getOwner() === $this) {
+                $restaurant->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

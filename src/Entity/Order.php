@@ -26,8 +26,7 @@ class Order
     private $products;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="orders")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="orders", cascade={"remove"})
      */
     private $restaurant;
 
@@ -62,12 +61,7 @@ class Order
 
     public function __toString()
     {
-        $total = 0; 
-        foreach($this->products as $product){
-            $total += $product->getPrice();
-        }
-
-        return "At " . $this->restaurant->getName() . " for " . $total . " the " . $this->createdAt->format("Y/m/d H:i:s");
+        return $this->getId()."# - ".$this->user . " - " . $this->user->getAddress() . " - " . $this->createdAt->format("Y/m/d H:i:s") . " - " . $this->restaurant->getName() . " - Total: " . $this->total ."€";
     } 
 
     public function getId(): ?int

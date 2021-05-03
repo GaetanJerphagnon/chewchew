@@ -26,6 +26,7 @@ class AppFixtures extends Fixture
             ->setPassword(password_hash('1234', PASSWORD_DEFAULT))
             ->setFirstname('Gaetan')
             ->setLastname('Jerphagnon')
+            ->setAddress('19 B Rue des Archives 59800 Lille')
             ->setSlug('gaetan-jerphagnon')
             ->setBirthday( new \DateTime('now'))
             ->setPictureUrl('gaetan.jpeg')

@@ -71,7 +71,7 @@ class BackofficeAuthenticator extends AbstractFormLoginAuthenticator implements 
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email could not be found.');
+            throw new CustomUserMessageAuthenticationException('Email could not be found or password is incorrect.');
         }
 
         return $user;
@@ -95,8 +95,14 @@ class BackofficeAuthenticator extends AbstractFormLoginAuthenticator implements 
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
+        $roles = $token->getUser()->getRoles();
 
-        return new RedirectResponse($this->urlGenerator->generate('admin'));
+        if(in_array("ROLE_ADMIN", $roles)){
+            return new RedirectResponse($this->urlGenerator->generate('admin'));
+        }
+        if(in_array("ROLE_RESTAURATEUR", $roles)){
+            return new RedirectResponse($this->urlGenerator->generate('profile'));
+        }
     }
 
     protected function getLoginUrl()

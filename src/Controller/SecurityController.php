@@ -35,7 +35,7 @@ class SecurityController extends AbstractController
             'error' => $error,
             'last_username' => $lastUsername,
             'translation_domain' => 'admin',
-            'page_title' => 'Log in!',
+            'page_title' => 'Chewchew Admin',
             'csrf_token_intention' => 'authenticate',
             'target_path' => $this->generateUrl('admin'),
             'username_label' => 'Email',
@@ -52,6 +52,5 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 }

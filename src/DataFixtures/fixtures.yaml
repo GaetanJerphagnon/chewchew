@@ -7,6 +7,7 @@ App\Entity\User:
     cart: "@cart_1"
     firstname: "<firstName()>"
     lastname: "<lastName()>"
+    address: "<address()>"
     email: "user1@google.com"
     slug (unique): "<slug()>"
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$m46/voMLL8qJy9zdOsLf8Q\$SYOjShFLsfYkjwyCas3RW06MQgAMORNyymQV6Hu3DGk'
@@ -17,7 +18,9 @@ App\Entity\User:
     cart: "@cart_2"
     firstname: "<firstName()>"
     lastname: "<lastName()>"
-    email: "user2@yahoo.com"
+    address: "<address()>"
+    email: "restaurateur@gmail.com"
+    roles: ["ROLE_RESTAURATEUR"]
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$m46/voMLL8qJy9zdOsLf8Q\$SYOjShFLsfYkjwyCas3RW06MQgAMORNyymQV6Hu3DGk'
     birthday: '<dateTimeBetween("-60 years", "-18 years")>'
     lastConnection: '<dateTimeBetween("-20 days", "now")>'
@@ -25,6 +28,7 @@ App\Entity\User:
     picture_url: "avatar3.png"
     cart: "@cart_3"
     firstname: "<firstName()>"
+    address: "<address()>"
     lastname: "<lastName()>"
     email: "user3@google.com"
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$m46/voMLL8qJy9zdOsLf8Q\$SYOjShFLsfYkjwyCas3RW06MQgAMORNyymQV6Hu3DGk'
@@ -35,6 +39,7 @@ App\Entity\User:
     cart: "@cart_4"
     firstname: "<firstName()>"
     lastname: "<lastName()>"
+    address: "<address()>"
     email: "user4@google.com"
     slug (unique): "<slug()>"
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$m46/voMLL8qJy9zdOsLf8Q\$SYOjShFLsfYkjwyCas3RW06MQgAMORNyymQV6Hu3DGk'
@@ -56,7 +61,6 @@ App\Entity\Product:
     description: "<text(200)>"
     price: "<numberBetween(500, 10000)>"
     picture_url: "<url()>"
-    categories: ["@category_*"]
     restaurant: "@restaurant_*"
 
 App\Entity\Order:
@@ -65,19 +69,13 @@ App\Entity\Order:
     restaurant: "@restaurant_*"
     products: ["@product_*", "@product_*"]
 
-App\Entity\Menu:
-  menu_{1..15}:
-    name: "<word()>"
-    description: "<text(200)>"
-    price: "<numberBetween(500, 10000)>"
-    orders: ["@order_*", "@order_*"]
-    products: ["@product_*", "@product_*"]
-
 App\Entity\Restaurant:
   restaurant_{1..20}:
+    owner: "@user_*"
     name: "<company()>"
     address: "<address()>"
     phone: "<phoneNumber()>"
     picture_url: "<url()>"
     categories: ["@category_*", "@category_*"]
     description: "<text(200)>"
+    is_active: true

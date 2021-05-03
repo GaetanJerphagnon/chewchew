@@ -85,7 +85,7 @@ class Product
 
     public function __toString()
     {
-        return $this->name. " - ". $this->price ."€";
+        return $this->name. " - ". $this->price/100 ." €";
     }
 
 
