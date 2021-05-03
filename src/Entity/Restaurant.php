@@ -50,7 +50,7 @@ class Restaurant
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="restaurant")
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="restaurant", cascade={"remove", "persist"}, orphanRemoval=true)
      */
     private $products;
 
@@ -60,7 +60,7 @@ class Restaurant
     private $categories;
 
     /**
-     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="restaurant")
+     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="restaurant", cascade={"remove", "persist"}, orphanRemoval=true))
      */
     private $orders;
 
@@ -73,6 +73,17 @@ class Restaurant
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="restaurants")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
 
     public function __construct()
     {
@@ -272,6 +283,30 @@ class Restaurant
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }
