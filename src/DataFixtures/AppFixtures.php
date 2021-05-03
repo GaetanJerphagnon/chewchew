@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Order;
+use App\Entity\OrderHasProducts;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -26,6 +28,7 @@ class AppFixtures extends Fixture
             ->setPassword(password_hash('1234', PASSWORD_DEFAULT))
             ->setFirstname('Gaetan')
             ->setLastname('Jerphagnon')
+            ->setAddress('19 B Rue des Archives 59800 Lille')
             ->setSlug('gaetan-jerphagnon')
             ->setBirthday( new \DateTime('now'))
             ->setPictureUrl('gaetan.jpeg')

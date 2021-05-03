@@ -4,19 +4,28 @@ namespace App\EventListener;
 
 use App\Entity\Menu;
 use App\Entity\Order;
+use App\Entity\Product;
+use App\Entity\Restaurant;
 use App\Entity\User;
+use App\Repository\RestaurantRepository;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class EntityCreateSubscriber implements EventSubscriber
 {
 
+    private $security;
     private $slugger;
+    private $restaurantReposotiry;
 
-    public function __construct(SluggerInterface $slugger)
+    public function __construct(RestaurantRepository $restaurantRepository, Security $security, SluggerInterface $slugger)
     {
+        $this->restaurantReposotiry = $restaurantRepository;
+        $this->security = $security;
         $this->slugger = $slugger;
     }
 
@@ -46,6 +55,18 @@ class EntityCreateSubscriber implements EventSubscriber
         if($entity instanceof Order){
             $this->setTotalPrice($entity);
         }
+
+        if($entity instanceof Restaurant && $user = $this->security->getUser() !== null ){
+            $user = $this->security->getUser();
+            $entity->setOwner($user);
+        }
+
+        if($entity instanceof Product && $user = $this->security->getUser() !== null && $_REQUEST['restaurantId']){
+            $restaurant = $this->restaurantReposotiry->find($_REQUEST['restaurantId']);
+
+            $entity->setRestaurant($restaurant);
+        }
+
     }
 
     public function preUpdate(LifecycleEventArgs $args): void
@@ -68,10 +89,10 @@ class EntityCreateSubscriber implements EventSubscriber
     public function setTotalPrice(Order $order)
     {
         $total = 0;
-        if($order->getProducts() !== null){
-            $products = $order->getProducts();
-            foreach($products as $p){
-                $total += $p->getPrice();
+        if($order->getOrderHasProducts() !== null){
+            $productQuantity = $order->getOrderHasProducts();
+            foreach($productQuantity as $pq){
+                $total += $pq->getProducts()->getPrice() * $pq->getQuantity();
             }
         }
         if($order->getMenus() !== null){
