@@ -21,11 +21,6 @@ class Order
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Product::class, inversedBy="orders")
-     */
-    private $products;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="orders", cascade={"remove"})
      */
     private $restaurant;
@@ -47,50 +42,26 @@ class Order
     private $menus;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $total;
 
+    /**
+     * @ORM\OneToMany(targetEntity=OrderHasProducts::class, mappedBy="orders",cascade={"persist"})
+     */
+    private $orderHasProducts;
+
     public function __construct()
     {
-        $this->products = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
         $this->menus = new ArrayCollection();
+        $this->orderHasProducts = new ArrayCollection();
 
     }
-
-    public function __toString()
-    {
-        return $this->getId()."# - ".$this->user . " - " . $this->user->getAddress() . " - " . $this->createdAt->format("Y/m/d H:i:s") . " - " . $this->restaurant->getName() . " - Total: " . $this->total ."€";
-    } 
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection|Product[]
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        $this->products->removeElement($product);
-
-        return $this;
     }
 
     public function getRestaurant(): ?Restaurant
@@ -154,13 +125,43 @@ class Order
     }
 
     public function getTotal(): ?int
-    {
+    {   
         return $this->total;
     }
 
     public function setTotal(int $total): self
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderHasProducts[]
+     */
+    public function getOrderHasProducts(): Collection
+    {
+        return $this->orderHasProducts;
+    }
+
+    public function addOrderHasProduct(OrderHasProducts $orderHasProduct): self
+    {
+        if (!$this->orderHasProducts->contains($orderHasProduct)) {
+            $this->orderHasProducts[] = $orderHasProduct;
+            $orderHasProduct->setOrders($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderHasProduct(OrderHasProducts $orderHasProduct): self
+    {
+        if ($this->orderHasProducts->removeElement($orderHasProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($orderHasProduct->getOrders() === $this) {
+                $orderHasProduct->setOrders(null);
+            }
+        }
 
         return $this;
     }

@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Order;
+use App\Entity\OrderHasProducts;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;

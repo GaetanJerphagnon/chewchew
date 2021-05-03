@@ -54,7 +54,7 @@ class OrderCrudController extends AbstractCrudController
     {
         return $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->disable(Action::NEW, Action::EDIT, Action::DELETE);
+            ->disable( Action::EDIT, Action::DELETE);
     }
 
     public function configureCrud(Crud $crud): Crud
@@ -75,20 +75,12 @@ class OrderCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
 
-        if($pageName === Crud::PAGE_DETAIL){
-            $products = ArrayField::new('products', 'Products');
-            $menus = ArrayField::new('menus', 'Menus');
-        } else {
-            $products = AssociationField::new('products', 'Products');
-            $menus = AssociationField::new('menus', 'Menus');
-        }
-
         return [
-            IdField::new('id'),
-            MoneyField::new('total')->setCurrency('EUR'),
+            IdField::new('id')->hideOnForm(),
+            MoneyField::new('total')->setCurrency('EUR')->hideOnForm(),
             AssociationField::new('user'),
-            $products,
-            $menus,
+            ArrayField::new('orderHasProducts', 'Products'),
+            ArrayField::new('menus', 'Menus'),
             AssociationField::new('restaurant'),
             DateTimeField::new('createdAt'),
         ];

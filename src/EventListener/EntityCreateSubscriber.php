@@ -89,10 +89,10 @@ class EntityCreateSubscriber implements EventSubscriber
     public function setTotalPrice(Order $order)
     {
         $total = 0;
-        if($order->getProducts() !== null){
-            $products = $order->getProducts();
-            foreach($products as $p){
-                $total += $p->getPrice();
+        if($order->getOrderHasProducts() !== null){
+            $productQuantity = $order->getOrderHasProducts();
+            foreach($productQuantity as $pq){
+                $total += $pq->getProducts()->getPrice() * $pq->getQuantity();
             }
         }
         if($order->getMenus() !== null){

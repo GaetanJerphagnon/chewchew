@@ -65,21 +65,21 @@ class Product
     private $categories;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Order::class, mappedBy="products")
-     */
-    private $orders;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+    /**
+     * @ORM\OneToMany(targetEntity=OrderHasProducts::class, mappedBy="products", fetch="EAGER")
+     */
+    private $productHasOrders;
 
     public function __construct()
     {
         $this->menus = new ArrayCollection();
         $this->categories = new ArrayCollection();
-        $this->orders = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
+        $this->productHasOrders = new ArrayCollection();
 
     }
 
@@ -232,33 +232,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection|Order[]
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addOrder(Order $order): self
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders[] = $order;
-            $order->addProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): self
-    {
-        if ($this->orders->removeElement($order)) {
-            $order->removeProduct($this);
-        }
-
-        return $this;
-    }
-
     public function getSlug(): ?string
     {
         return $this->slug;
@@ -267,6 +240,36 @@ class Product
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderHasProducts[]
+     */
+    public function getProductHasOrders(): Collection
+    {
+        return $this->productHasOrders;
+    }
+
+    public function addProductHasOrder(OrderHasProducts $productHasOrder): self
+    {
+        if (!$this->productHasOrders->contains($productHasOrder)) {
+            $this->productHasOrders[] = $productHasOrder;
+            $productHasOrder->setProducts($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductHasOrder(OrderHasProducts $productHasOrder): self
+    {
+        if ($this->productHasOrders->removeElement($productHasOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($productHasOrder->getProducts() === $this) {
+                $productHasOrder->setProducts(null);
+            }
+        }
 
         return $this;
     }

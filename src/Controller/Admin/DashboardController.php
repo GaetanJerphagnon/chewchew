@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Menu;
 use App\Entity\Order;
+use App\Entity\OrderHasProducts;
 use App\Entity\Product;
 use App\Entity\Restaurant;
 use App\Entity\User;
@@ -24,6 +25,29 @@ class DashboardController extends AbstractDashboardController
     {
         $em = $this->getDoctrine()->getManager();
         $orders = $em->getRepository(Order::class)->findLast10();
+
+        return $this->render('Backoffice/Manager/dashboard.html.twig',[
+            'user' => $this->getUser(),
+            'lastOrders' => $orders,
+        ]);
+    }
+
+        /**
+     * @Route("/test", name="test")
+     */
+    public function test(): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $orders = $em->getRepository(Order::class)->findLast10();
+
+        $banane = $em->getRepository(Product::class)->findOneBy(['name' => 'Banane']);
+        $order = new Order();
+        $order->setUser($this->getUser())
+        ->setRestaurant($em->getRepository(Restaurant::class)->findOneBy(['name' => 'Le Bananier Restau']))
+        ->addOrderHasProduct(new OrderHasProducts($banane, 12));
+        
+        $em->persist($order);
+        $em->flush();
 
         return $this->render('Backoffice/Manager/dashboard.html.twig',[
             'user' => $this->getUser(),

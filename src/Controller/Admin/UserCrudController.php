@@ -66,10 +66,8 @@ class UserCrudController extends AbstractCrudController
     {
 
         if($pageName === Crud::PAGE_DETAIL){
-            $orders = ArrayField::new('orders', 'Orders');
             $cart = ArrayField::new('cart', 'Cart');
         } else {
-            $orders = AssociationField::new('orders', 'Orders');
             $cart = AssociationField::new('cart', 'Cart');
         }
 
@@ -84,7 +82,6 @@ class UserCrudController extends AbstractCrudController
             DateField::new('birthday'),
             TextField::new('pictureUrl'),
             DateTimeField::new('lastConnection')->onlyOnDetail(),
-            $orders->hideOnForm(),
             $cart->hideOnForm()->setPermission('ROLE_ADMIN'),
             DateTimeField::new('createdAt')->hideOnForm()->setPermission('ROLE_ADMIN'),
             DateTimeField::new('updatedAt')->onlyOnDetail()->setPermission('ROLE_ADMIN'),
