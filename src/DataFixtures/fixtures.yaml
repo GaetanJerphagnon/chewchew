@@ -56,21 +56,41 @@ App\Entity\Category:
     description: "<text(200)>"
 
 App\Entity\Product:
-  product_{1..50}:
+  product_1:
+    name: "Banane"
+    description: "<text(200)>"
+    price: "99"
+    picture_url: "<url()>"
+    restaurant: "@restaurant_1"
+  product_{2..50}:
     name: "<word()>"
     description: "<text(200)>"
     price: "<numberBetween(500, 10000)>"
     picture_url: "<url()>"
     restaurant: "@restaurant_*"
 
+App\Entity\OrderHasProducts:
+  order_has_products_1:
+    quantity: "25"
+    products: "@product_1"
+    orders: "@order_1"
+
 App\Entity\Order:
-  order_{1..15}:
-    user: "@user_*"
-    restaurant: "@restaurant_*"
-    products: ["@product_*", "@product_*"]
+  order_1:
+    user: "@user_2"
+    restaurant: "@restaurant_1"
 
 App\Entity\Restaurant:
-  restaurant_{1..20}:
+  restaurant_1:
+    owner: "@user_2"
+    name: "Le Bananier Restau"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture_url: "<url()>"
+    categories: ["@category_*", "@category_*"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_{2..20}:
     owner: "@user_*"
     name: "<company()>"
     address: "<address()>"

@@ -19,8 +19,8 @@
                         </blockquote>
                     </div>
                     <div class="col-6">
-                        {% for product in order.products %}
-                            <div>{{product.name}} {{product.price}}€</div>
+                        {% for product in order.orderHasProducts %}
+                            <div>{{product.quantity}} x {{ product.products.name }} <em>({{product.products.price/100}}€)</em> -> {{product.products.price * product.quantity / 100}}€</div>
                         {% endfor %}
                     </div>
                     </div>
