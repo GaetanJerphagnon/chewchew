@@ -79,7 +79,11 @@ class DashboardController extends AbstractDashboardController
 
     public function configureDashboard(): Dashboard
     {
-        return Dashboard::new()->setTitle('Chewchew Manager')->renderContentMaximized()->disableUrlSignatures();
+        return Dashboard::new()->setTitle('<img src="logo-mini.ico"> Chewchew Manager ')
+                            ->disableUrlSignatures()
+                            ->renderContentMaximized()
+
+        ;
     }
     
 

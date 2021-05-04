@@ -32,7 +32,7 @@ class AdminDashboardController extends AbstractDashboardController
 
     public function configureDashboard(): Dashboard
     {
-        return Dashboard::new()->setTitle('Administration')->renderContentMaximized();
+        return Dashboard::new()->setTitle('<img src="logo-mini.ico"> Chewchew Administration ')->renderContentMaximized();
     }
 
     public function configureMenuItems(): iterable
