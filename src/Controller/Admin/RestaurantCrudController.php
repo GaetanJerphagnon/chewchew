@@ -24,6 +24,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class RestaurantCrudController extends AbstractCrudController
 {
@@ -131,15 +133,16 @@ class RestaurantCrudController extends AbstractCrudController
 
         return [
             IdField::new('id')->hideOnForm(),
+            ImageField::new('picture')->setBasePath('/uploads/pictures/restaurants/')->hideOnForm(),
             TextField::new('name'),
             AssociationField::new('owner')->hideOnForm()->setPermission('ROLE_ADMIN'),
             TextField::new('slug')->onlyOnDetail(),
-            TextareaField::new('description'),
+            TextareaField::new('description')->onlyOnDetail(),
             TextField::new('address'),
             TelephoneField::new('phone'),
-            TextField::new('pictureUrl'),
+            TextField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms(),
             $products->hideOnForm(),
-            ArrayField::new('categories', 'Categories')->hideOnForm(),
+            ArrayField::new('categories', 'Categories')->onlyOnDetail(),
             DateTimeField::new('createdAt')->onlyOnDetail(),
             BooleanField::new('isActive')->setHelp('Determine if your restaurants can be seen by customers on the website'),
         ];

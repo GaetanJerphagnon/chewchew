@@ -7,9 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @Vich\Uploadable
  */
 class User implements UserInterface
 {
@@ -59,7 +62,13 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $pictureUrl;
+    private $picture;
+
+    /**
+     * @Vich\UploadableField(mapping="user_pictures", fileNameProperty="picture")
+     * @var File
+     */
+    private $imageFile;
 
     /**
      * @ORM\OneToMany(targetEntity=Order::class, mappedBy="user")
@@ -238,16 +247,30 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPictureUrl(): ?string
+    public function getPicture(): ?string
     {
-        return $this->pictureUrl;
+        return $this->picture;
     }
 
-    public function setPictureUrl(?string $pictureUrl): self
+    public function setPicture(?string $picture): self
     {
-        $this->pictureUrl = $pictureUrl;
+        $this->picture = $picture;
 
         return $this;
+    }
+
+    public function setImageFile(File $file = null)
+    {
+        $this->imageFile = $file;
+
+        if($file) {
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 
     /**
