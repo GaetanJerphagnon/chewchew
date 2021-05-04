@@ -18,6 +18,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
 
 class OrderCrudController extends AbstractCrudController
@@ -79,8 +80,9 @@ class OrderCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             MoneyField::new('total')->setCurrency('EUR')->hideOnForm(),
             AssociationField::new('user'),
+            TextField::new('user.address', 'Delivery Address'),
             ArrayField::new('orderHasProducts', 'Products'),
-            ArrayField::new('menus', 'Menus'),
+            //ArrayField::new('menus', 'Menus'),
             AssociationField::new('restaurant'),
             DateTimeField::new('createdAt'),
         ];

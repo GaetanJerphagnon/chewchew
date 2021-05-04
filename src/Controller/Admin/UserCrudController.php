@@ -18,8 +18,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -73,14 +75,15 @@ class UserCrudController extends AbstractCrudController
 
         return [
             IdField::new('id')->hideOnForm()->setPermission('ROLE_ADMIN'),
+            ImageField::new('picture')->setBasePath('/uploads/pictures/users/')->hideOnForm(),
             TextField::new('firstname'),
             TextField::new('lastname'),
+            TextField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms(),
             TextField::new('address'),
             EmailField::new('email'),
             TextField::new('slug')->onlyOnDetail(),
             ArrayField::new('roles')->hideOnForm()->setPermission('ROLE_ADMIN'),
             DateField::new('birthday'),
-            TextField::new('pictureUrl'),
             DateTimeField::new('lastConnection')->onlyOnDetail(),
             $cart->hideOnForm()->setPermission('ROLE_ADMIN'),
             DateTimeField::new('createdAt')->hideOnForm()->setPermission('ROLE_ADMIN'),

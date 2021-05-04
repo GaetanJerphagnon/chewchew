@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -19,10 +20,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -64,8 +68,9 @@ class ProductCrudController extends AbstractCrudController
     {
         $actions->remove(Crud::PAGE_INDEX, Action::NEW)
                 ->add(Crud::PAGE_INDEX, Action::DETAIL);
-        
-        if($this->restaurant){
+        if($this->isGranted('ROLE_ADMIN')){
+            $actions->disable(Action::DELETE, Action::EDIT, Action::NEW);
+        } else if($this->restaurant){
             $newRestaurantProduct = Action::new('newRestaurantProduct', 'Add new Product for '.$this->restaurant->getName(), 'fa fa-plus')
                     ->addCssClass("btn btn-success")
                     ->createAsGlobalAction()   
@@ -175,12 +180,14 @@ class ProductCrudController extends AbstractCrudController
         return $crud;
     }
 
-    /* public function configureFilters(Filters $filters): Filters
+    public function configureFilters(Filters $filters): Filters
     {
-        return $filters
-            ->add(EntityFilter::new('categories'))
-        ;
-    } */
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $filters->add(EntityFilter::new('restaurant'));
+        }
+
+        return $filters;
+    }
     
     public function configureFields(string $pageName): iterable
     {
@@ -209,10 +216,11 @@ class ProductCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('name')->setValue("sdfsdf"),
+            ImageField::new('picture')->setBasePath('/uploads/pictures/products/')->hideOnForm(),
             TextField::new('slug')->onlyOnDetail(),
             MoneyField::new('price')->setCurrency('EUR'),
             TextareaField::new('description'),
-            TextField::new('pictureUrl'),
+            TextField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms(),
             $restaurant,
             $menus->hideOnForm(),
             DateTimeField::new('createdAt')->hideOnForm(),

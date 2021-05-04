@@ -31,7 +31,7 @@ class AppFixtures extends Fixture
             ->setAddress('19 B Rue des Archives 59800 Lille')
             ->setSlug('gaetan-jerphagnon')
             ->setBirthday( new \DateTime('now'))
-            ->setPictureUrl('gaetan.jpeg')
+            ->setPicture('default-user.png')
             ->setRoles(array("ROLE_ADMIN"));
          $em->persist($user);
         

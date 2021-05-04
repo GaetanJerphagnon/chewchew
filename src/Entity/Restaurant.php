@@ -6,9 +6,11 @@ use App\Repository\RestaurantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 /**
  * @ORM\Entity(repositoryClass=RestaurantRepository::class)
+ * @Vich\Uploadable
  */
 class Restaurant
 {
@@ -37,7 +39,13 @@ class Restaurant
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $pictureUrl;
+    private $picture;
+
+    /**
+     * @Vich\UploadableField(mapping="restaurant_pictures", fileNameProperty="picture")
+     * @var File
+     */
+    private $imageFile;
 
     /**
      * @ORM\Column(type="datetime")
@@ -140,16 +148,30 @@ class Restaurant
         return $this;
     }
 
-    public function getPictureUrl(): ?string
+    public function getPicture(): ?string
     {
-        return $this->pictureUrl;
+        return $this->picture;
     }
 
-    public function setPictureUrl(?string $pictureUrl): self
+    public function setPicture(?string $picture): self
     {
-        $this->pictureUrl = $pictureUrl;
+        $this->picture = $picture;
 
         return $this;
+    }
+
+    public function setImageFile(File $file = null)
+    {
+        $this->imageFile = $file;
+
+        if($file) {
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
