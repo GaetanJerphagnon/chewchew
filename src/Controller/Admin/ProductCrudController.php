@@ -20,11 +20,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Orm\EntityRepository;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -214,10 +216,11 @@ class ProductCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('name')->setValue("sdfsdf"),
+            ImageField::new('picture')->setBasePath('/uploads/pictures/products/')->hideOnForm(),
             TextField::new('slug')->onlyOnDetail(),
             MoneyField::new('price')->setCurrency('EUR'),
             TextareaField::new('description'),
-            TextField::new('pictureUrl'),
+            TextField::new('imageFile')->setFormType(VichImageType::class)->onlyOnForms(),
             $restaurant,
             $menus->hideOnForm(),
             DateTimeField::new('createdAt')->hideOnForm(),

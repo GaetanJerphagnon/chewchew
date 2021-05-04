@@ -3,7 +3,7 @@
 
 App\Entity\User:
   user_1:
-    picture_url: "avatar.png"
+    picture: "default-user.png"
     cart: "@cart_1"
     firstname: "<firstName()>"
     lastname: "<lastName()>"
@@ -14,7 +14,7 @@ App\Entity\User:
     birthday: '<dateTimeBetween("-60 years", "-18 years")>'
     lastConnection: '<dateTimeBetween("-20 days", "now")>'
   user_2:
-    picture_url: "avatar2.png"
+    picture: "default-user.png"
     cart: "@cart_2"
     firstname: "<firstName()>"
     lastname: "<lastName()>"
@@ -25,7 +25,7 @@ App\Entity\User:
     birthday: '<dateTimeBetween("-60 years", "-18 years")>'
     lastConnection: '<dateTimeBetween("-20 days", "now")>'
   user_3:
-    picture_url: "avatar3.png"
+    picture: "default-user.png"
     cart: "@cart_3"
     firstname: "<firstName()>"
     address: "<address()>"
@@ -35,7 +35,7 @@ App\Entity\User:
     birthday: '<dateTimeBetween("-60 years", "-18 years")>'
     lastConnection: '<dateTimeBetween("-20 days", "now")>'
   user_4:
-    picture_url: "avatar4.png"
+    picture: "default-user.png"
     cart: "@cart_4"
     firstname: "<firstName()>"
     lastname: "<lastName()>"
@@ -60,19 +60,19 @@ App\Entity\Product:
     name: "Banane"
     description: "<text(200)>"
     price: "99"
-    picture_url: "<url()>"
+    picture: "default-product.png"
     restaurant: "@restaurant_1"
   product_2:
     name: "Noix de coco"
     description: "<text(200)>"
     price: "550"
-    picture_url: "<url()>"
+    picture: "default-product.png"
     restaurant: "@restaurant_1"
   product_{3..50}:
     name: "<word()>"
     description: "<text(200)>"
     price: "<numberBetween(500, 10000)>"
-    picture_url: "<url()>"
+    picture: "default-product.png"
     restaurant: "@restaurant_*"
 
 #App\Entity\OrderHasProducts:
@@ -92,7 +92,7 @@ App\Entity\Restaurant:
     name: "Le Bananier Restau"
     address: "<address()>"
     phone: "<phoneNumber()>"
-    picture_url: "<url()>"
+    picture: "default-restaurant.png"
     categories: ["@category_*", "@category_*"]
     description: "<text(200)>"
     is_active: true
@@ -101,7 +101,7 @@ App\Entity\Restaurant:
     name: "<company()>"
     address: "<address()>"
     phone: "<phoneNumber()>"
-    picture_url: "<url()>"
+    picture: "default-restaurant.png"
     categories: ["@category_*", "@category_*"]
     description: "<text(200)>"
     is_active: true
