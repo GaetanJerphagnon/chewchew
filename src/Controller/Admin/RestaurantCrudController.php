@@ -125,10 +125,8 @@ class RestaurantCrudController extends AbstractCrudController
 
         if($pageName === Crud::PAGE_DETAIL){
             $products = ArrayField::new('products', 'Products');
-            $categories = ArrayField::new('categories', 'Categories');
         } else {
             $products = AssociationField::new('products', 'Products');
-            $categories = AssociationField::new('categories', 'Categories');
         }
 
         return [
@@ -140,8 +138,8 @@ class RestaurantCrudController extends AbstractCrudController
             TextField::new('address'),
             TelephoneField::new('phone'),
             TextField::new('pictureUrl'),
-            $products->onlyOnDetail(),
-            $categories->onlyOnDetail(),
+            $products->hideOnForm(),
+            ArrayField::new('categories', 'Categories')->hideOnForm(),
             DateTimeField::new('createdAt')->onlyOnDetail(),
             BooleanField::new('isActive')->setHelp('Determine if your restaurants can be seen by customers on the website'),
         ];

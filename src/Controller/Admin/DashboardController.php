@@ -41,10 +41,13 @@ class DashboardController extends AbstractDashboardController
         $orders = $em->getRepository(Order::class)->findLast10();
 
         $banane = $em->getRepository(Product::class)->findOneBy(['name' => 'Banane']);
+        $noixCoco = $em->getRepository(Product::class)->findOneBy(['name' => 'Noix de coco']);
+
         $order = new Order();
         $order->setUser($this->getUser())
         ->setRestaurant($em->getRepository(Restaurant::class)->findOneBy(['name' => 'Le Bananier Restau']))
-        ->addOrderHasProduct(new OrderHasProducts($banane, 12));
+        ->addOrderHasProduct(new OrderHasProducts($banane, 12))
+        ->addOrderHasProduct(new OrderHasProducts($noixCoco, 5));
         
         $em->persist($order);
         $em->flush();

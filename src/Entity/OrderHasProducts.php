@@ -34,7 +34,7 @@ class OrderHasProducts
      */
     private $createdAt;
 
-    public function __construct(Product $product, int $quantity)
+    public function __construct(Product $product = null, int $quantity = null)
     {
         $this->products = $product;
         $this->quantity = $quantity;

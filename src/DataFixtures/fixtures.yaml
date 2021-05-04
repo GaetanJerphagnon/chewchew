@@ -62,23 +62,29 @@ App\Entity\Product:
     price: "99"
     picture_url: "<url()>"
     restaurant: "@restaurant_1"
-  product_{2..50}:
+  product_2:
+    name: "Noix de coco"
+    description: "<text(200)>"
+    price: "550"
+    picture_url: "<url()>"
+    restaurant: "@restaurant_1"
+  product_{3..50}:
     name: "<word()>"
     description: "<text(200)>"
     price: "<numberBetween(500, 10000)>"
     picture_url: "<url()>"
     restaurant: "@restaurant_*"
 
-App\Entity\OrderHasProducts:
-  order_has_products_1:
-    quantity: "25"
-    products: "@product_1"
-    orders: "@order_1"
+#App\Entity\OrderHasProducts:
+#  order_has_products_1:
+#    quantity: "25"
+#    products: "@product_1"
+#    orders: "@order_1"
 
-App\Entity\Order:
-  order_1:
-    user: "@user_2"
-    restaurant: "@restaurant_1"
+#App\Entity\Order:
+#  order_1:
+#    user: "@user_2"
+#    restaurant: "@restaurant_1"
 
 App\Entity\Restaurant:
   restaurant_1:
