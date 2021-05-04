@@ -8,7 +8,7 @@ App\Entity\User:
     firstname: "<firstName()>"
     lastname: "<lastName()>"
     address: "<address()>"
-    email: "user1@google.com"
+    email: "user@gmail.com"
     slug (unique): "<slug()>"
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$m46/voMLL8qJy9zdOsLf8Q\$SYOjShFLsfYkjwyCas3RW06MQgAMORNyymQV6Hu3DGk'
     birthday: '<dateTimeBetween("-60 years", "-18 years")>'

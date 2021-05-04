@@ -1,0 +1,66 @@
+@import "~bootstrap/scss/bootstrap";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+/* 
+@import "/public/css/style.blue.css"; */
+
+.navbar {
+  .container {
+    height: 100%;
+
+    a img {
+      height: 150px;
+    }
+  }
+}
+.megamenu {
+  width: 200px;
+}
+
+.dropdown-menu {
+  top: 5em !important;
+}
+
+.nav-link {
+  color: #555 !important;
+}
+
+.font-alpha {
+  font-family: "alpja-slab-one";
+}
+
+.dark-color {
+  color: #345973 !important;
+  text-shadow: 1px 1px 1px #dbd8d8;
+}
+
+.restaurant-img {
+  width: 100% !important;
+}
+
+.restaurant-banner {
+  position: relative;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  text-shadow: 0 0 2px grey;
+  height: 150px;
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    height: 100%;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  .informations {
+    position: absolute;
+    top: 0;
+    z-index: 20;
+    height: 100%;
+    left: 5%;
+    width: 90%;
+    color: white;
+  }
+}

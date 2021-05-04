@@ -34,10 +34,9 @@ class SecurityController extends AbstractController
 
             'error' => $error,
             'last_username' => $lastUsername,
-            'translation_domain' => 'admin',
-            'page_title' => 'Chewchew Admin',
+            'page_title' => 'Log in!',
             'csrf_token_intention' => 'authenticate',
-            'target_path' => $this->generateUrl('admin'),
+            'target_path' => $this->generateUrl('homepage'),
             'username_label' => 'Email',
             'username_parameter' => 'email',
             'password_label' => 'Password',

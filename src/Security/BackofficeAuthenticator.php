@@ -103,6 +103,9 @@ class BackofficeAuthenticator extends AbstractFormLoginAuthenticator implements 
         if(in_array("ROLE_RESTAURATEUR", $roles)){
             return new RedirectResponse($this->urlGenerator->generate('profile'));
         }
+
+        // Regular user
+        return new RedirectResponse($this->urlGenerator->generate('homepage'));
     }
 
     protected function getLoginUrl()

@@ -1,0 +1,255 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %} 
+
+{% endblock %}  
+
+{% block title %}{{ parent() }} - Homepage{% endblock %}
+
+{% block body %}
+
+
+    <div id="all">
+      <div id="content">
+        <div class="container mt-4">
+          <div class="row">
+            <div class="col-lg-12">
+            </div>
+            <div class="col-lg-3">
+              
+              <div class="banner d-flex justify-content-center"><a href="#"><img src="{{ asset('logo.png')}}" alt="ChewChew logo" class="img-fluid"></a></div>
+
+              <div class="card sidebar-menu mb-4">
+                <div class="card-header">
+                  <h3 class="h4 card-title">Customer section</h3>
+                </div>
+                <div class="card-body">
+                  <ul class="nav nav-pills flex-column text-white"><a href="customer-orders.html" class="nav-link active"><i class="fa fa-list"></i> My orders</a><a href="customer-wishlist.html" class="nav-link"><i class="fa fa-heart"></i> My wishlist</a><a href="customer-account.html" class="nav-link"><i class="fa fa-user"></i> My account</a><a href="index.html" class="nav-link"><i class="fa fa-sign-out"></i> Logout</a></ul>
+                </div>
+              </div>
+
+              <div class="card sidebar-menu mb-4">
+                <div class="card-header">
+                  <h3 class="h4 card-title">Categories</h3>
+                </div>
+                <div class="card-body p-0">
+                  <ul class="nav nav-pills flex-column category-menu m-0">
+                    <li>
+                      {% for category in categories %}
+                        
+                        <a href="#" class="nav-link">{{ category.name }} <span class="badge badge-secondary"> {{ category.restaurants|length }} </span></a>
+                      {% endfor %}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              {# <div class="card sidebar-menu mb-4">
+                <div class="card-header">
+                  <h3 class="h4 card-title">Brands <a href="#" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</a></h3>
+                </div>
+                <div class="card-body">
+                  <form>
+                    <div class="form-group">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"> Armani  (10)
+                        </label>
+                      </div>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"> Versace  (12)
+                        </label>
+                      </div>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"> Carlo Bruni  (15)
+                        </label>
+                      </div>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"> Jack Honey  (14)
+                        </label>
+                      </div>
+                    </div>
+                    <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
+                  </form>
+                </div>
+              </div> #}
+
+              {# <div class="card sidebar-menu mb-4">
+                <div class="card-header">
+                  <h3 class="h4 card-title">Colours <a href="#" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</a></h3>
+                </div>
+                <div class="card-body">
+                  <form>
+                    <div class="form-group">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"><span class="colour white"></span> White (14)
+                        </label>
+                      </div>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"><span class="colour blue"></span> Blue (10)
+                        </label>
+                      </div>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"><span class="colour green"></span>  Green (20)
+                        </label>
+                      </div>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"><span class="colour yellow"></span>  Yellow (13)
+                        </label>
+                      </div>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"><span class="colour red"></span>  Red (10)
+                        </label>
+                      </div>
+                    </div>
+                    <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
+                  </form>
+                </div>
+              </div> #}
+
+              <!-- *** MENUS AND FILTERS END ***-->
+              
+              <div class="banner"><a href="#"><img src="img/banner.jpg" alt="sales 2014" class="img-fluid"></a></div>
+            </div>
+            <div class="col-lg-9">
+              <div class="box">
+                <h3 class="font-alpha dark-color font-weight-bold">Are you craving? It's not Chew late!</h3>
+                <div class="input-group">
+                  <input type="text" class="form-control border-primary"><span class="input-group-append">
+                    <button type="button" class="btn btn-outline-primary">Find your restaurant!</button></span>
+                </div>
+              </div>
+              
+
+              <div class="row products">
+                    {% for restaurant in restaurants %}
+
+                      <div class="col-lg-4 col-md-6">
+                        <div class="product border-5 border-top border-right border-bottom border-primary">
+                          <a href="{{ path('restaurant_index', { 'slug': restaurant.slug }) }}"><img src="{{ vich_uploader_asset(restaurant, 'imageFile') | imagine_filter('restaurant_thumb') }}" alt="Photo of {{restaurant.name}}" class="img-fluid restaurant-img"></a>
+                          <div class="text m-1 p-0 px-2">
+                            <span class="text-warning"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span>
+                            <h4 class="mb-0"><a href="{{ path('restaurant_index', { 'slug': restaurant.slug }) }}"> {{restaurant.name}} </a></h4>
+                            <div>Delivery fee: €€</div>
+                          </div>
+                        </div>
+                      </div>
+                  
+                  {% endfor %}
+              <!-- /.products-->
+              </div>
+              <div class="pages">
+                <p class="loadMore"><a href="#" class="btn btn-primary btn-lg"><i class="fa fa-chevron-down"></i> Load more</a></p>
+                <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+                  <ul class="pagination">
+                    <li class="page-item"><a href="#" aria-label="Previous" class="page-link"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item"><a href="#" class="page-link">3</a></li>
+                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+                    <li class="page-item"><a href="#" class="page-link">5</a></li>
+                    <li class="page-item"><a href="#" aria-label="Next" class="page-link"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <!-- /.col-lg-9-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6">
+            <h4 class="mb-3">Pages</h4>
+            <ul class="list-unstyled">
+              <li><a href="text.html">About us</a></li>
+              <li><a href="text.html">Terms and conditions</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="contact.html">Contact us</a></li>
+            </ul>
+            <hr>
+            <h4 class="mb-3">User section</h4>
+            <ul class="list-unstyled">
+              <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a></li>
+              <li><a href="register.html">Regiter</a></li>
+            </ul>
+          </div>
+          <!-- /.col-lg-3-->
+          <div class="col-lg-3 col-md-6">
+            <h4 class="mb-3">Top categories</h4>
+            <h5>Men</h5>
+            <ul class="list-unstyled">
+              <li><a href="category.html">T-shirts</a></li>
+              <li><a href="category.html">Shirts</a></li>
+              <li><a href="category.html">Accessories</a></li>
+            </ul>
+            <h5>Ladies</h5>
+            <ul class="list-unstyled">
+              <li><a href="category.html">T-shirts</a></li>
+              <li><a href="category.html">Skirts</a></li>
+              <li><a href="category.html">Pants</a></li>
+              <li><a href="category.html">Accessories</a></li>
+            </ul>
+          </div>
+          <!-- /.col-lg-3-->
+          <div class="col-lg-3 col-md-6">
+            <h4 class="mb-3">Where to find us</h4>
+            <p><strong>Obaju Ltd.</strong><br>13/25 New Avenue<br>New Heaven<br>45Y 73J<br>England<br><strong>Great Britain</strong></p><a href="contact.html">Go to contact page</a>
+            <hr class="d-block d-md-none">
+          </div>
+          <!-- /.col-lg-3-->
+          <div class="col-lg-3 col-md-6">
+            <h4 class="mb-3">Get the news</h4>
+            <p class="text-muted">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+            <form>
+              <div class="input-group">
+                <input type="text" class="form-control"><span class="input-group-append">
+                  <button type="button" class="btn btn-outline-secondary">Subscribe!</button></span>
+              </div>
+              <!-- /input-group-->
+            </form>
+            <hr>
+            <h4 class="mb-3">Stay in touch</h4>
+            <p class="social"><a href="#" class="facebook external"><i class="fa fa-facebook"></i></a><a href="#" class="twitter external"><i class="fa fa-twitter"></i></a><a href="#" class="instagram external"><i class="fa fa-instagram"></i></a><a href="#" class="gplus external"><i class="fa fa-google-plus"></i></a><a href="#" class="email external"><i class="fa fa-envelope"></i></a></p>
+          </div>
+          <!-- /.col-lg-3-->
+        </div>
+        <!-- /.row-->
+      </div>
+      <!-- /.container-->
+    </div>
+    <!-- /#footer-->
+    <!-- *** FOOTER END ***-->
+    
+    
+    <!--
+    *** COPYRIGHT ***
+    _________________________________________________________
+    -->
+    <div id="copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 mb-2 mb-lg-0">
+            <p class="text-center text-lg-left">©2019 Your name goes here.</p>
+          </div>
+          <div class="col-lg-6">
+            <p class="text-center text-lg-right">Template design by <a href="https://bootstrapious.com/">Bootstrapious</a>
+              <!-- If you want to remove this backlink, pls purchase an Attribution-free License @ https://bootstrapious.com/p/obaju-e-commerce-template. Big thanks!-->
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- *** COPYRIGHT END ***-->
+{% endblock %}

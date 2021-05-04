@@ -2,18 +2,37 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}ChewChew{% endblock %}</title>
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
+            {{ encore_entry_link_tags('app') }}
+                <link rel="stylesheet" href="{{asset('distribution/vendor/bootstrap/css/bootstrap.min.css')}}">
+                <!-- Font Awesome CSS-->
+                <link rel="stylesheet" href="{{asset('distribution/vendor/font-awesome/css/font-awesome.min.css')}}">
+
+                <!-- owl carousel-->
+                <link rel="stylesheet" href="{{asset('distribution/vendor/owl.carousel/assets/owl.carousel.css')}}">
+                <link rel="stylesheet" href="{{asset('distribution/vendor/owl.carousel/assets/owl.theme.default.css')}}">
+                <!-- theme stylesheet-->
+                <link rel="stylesheet" href="{{asset('css/style.blue.css')}}" id="theme-stylesheet">
         {% endblock %}
 
         {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
+            {{ encore_entry_script_tags('app') }}
+                <!-- JavaScript files-->
+            <script src="{{asset('distribution/vendor/jquery/jquery.min.js')}}"></script>
+            <script src="{{asset('distribution/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+            <script src="{{asset('distribution/vendor/jquery.cookie/jquery.cookie.js')}}"></script>
+            <script src="{{asset('distribution/vendor/owl.carousel/owl.carousel.min.js')}}"></script>
+            <script src="{{asset('distribution/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.js')}}"></script>
+            <script src="{{asset('distribution/js/front.js')}}"></script>
+
+
         {% endblock %}
     </head>
     <body>
+        {% include 'front/utils/header.html.twig' %}     
         {% block body %}{% endblock %}
     </body>
 </html>

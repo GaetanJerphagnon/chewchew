@@ -26,7 +26,7 @@ class DashboardController extends AbstractDashboardController
         $em = $this->getDoctrine()->getManager();
         $orders = $em->getRepository(Order::class)->findLast10();
 
-        return $this->render('Backoffice/Manager/dashboard.html.twig',[
+        return $this->render('backoffice/manager/dashboard.html.twig',[
             'user' => $this->getUser(),
             'lastOrders' => $orders,
         ]);

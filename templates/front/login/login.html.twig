@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %} 
+    <script type="text/javascript" src="{{ asset('js/requestSender.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/loginPage.js') }}"></script>
+{% endblock %}  
+
+{% block title %}{{ parent() }}-Connexion{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="container mb-4 form">
+    <div class="alert alert-dismissible alert-danger hidden">
+     </div>
+    {{ form_start(form, {'attr': {'id': 'form_login'}}) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.password) }}
+        
+        {{ form_errors(form) }}
+        <button type="submit" class="btn btn-dark btn-login">Connexion</button>
+    {{ form_end(form) }}
+
+</div>
+
+{% endblock %}
+

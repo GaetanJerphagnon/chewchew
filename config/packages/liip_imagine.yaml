@@ -1,0 +1,27 @@
+# See dos how to configure the bundle: https://symfony.com/doc/current/bundles/LiipImagineBundle/basic-usage.html
+liip_imagine:
+  # valid drivers options include "gd" or "gmagick" or "imagick"
+  driver: "gd"
+  filter_sets:
+    restaurant_thumb:
+      quality: 75
+      filters:
+        thumbnail:
+          size: [300, 150]
+          mode: outbound
+
+    restaurant_banner:
+      quality: 100
+      filters:
+        thumbnail:
+          allow_upscale: true
+          size: [1300, 150]
+          mode: outbound
+          position: center
+
+    product_thumb:
+      quality: 80
+      filters:
+        thumbnail:
+          size: [300, 150]
+          mode: outbound
