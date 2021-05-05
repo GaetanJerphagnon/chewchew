@@ -26,8 +26,6 @@ class ProductController extends AbstractController
             
             $cart = $cartManager->getCurrentCart();
 
-            $products = $cart->getOrderHasProducts();
-
             $cart
             ->addOrderHasProduct($item)
             ->setUpdatedAt(new \DateTime());

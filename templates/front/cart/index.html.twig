@@ -24,7 +24,6 @@
                                     </div>
                                     <ul class="list-group list-group-flush">
                                         {% for item in form.orderHasProducts %}
-                                    {% dump(item) %}
                                             <li class="list-group-item d-flex">
                                                 <div class="flex-fill mr-2">
                                                     <img src="{{ vich_uploader_asset(item.vars.data.products, 'imageFile') | imagine_filter('product_thumb') }}" width="64" alt="Product image">

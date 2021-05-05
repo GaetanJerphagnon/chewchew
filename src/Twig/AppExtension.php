@@ -46,7 +46,6 @@ class AppExtension extends AbstractExtension
     {
         if($cartId = $this->session->get('cart_id')){
             $cart = $this->orderRepository->findOneBy(['id' => $cartId]);
-            dump($this->session);
             return $cart;
         }
 

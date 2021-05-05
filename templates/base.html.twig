@@ -36,13 +36,5 @@
 
         {% block body %}{% endblock %}
 
-        {% dump(app.request.get('_route')) %}
-
-        {% if cart is not null %}
-            {% for item in cart.orderHasProducts %}
-                {% dump(item.products.name) %}
-                {% dump(item.quantity) %}
-            {% endfor %}
-        {% endif %}
     </body>
 </html>

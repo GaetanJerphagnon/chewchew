@@ -20,7 +20,7 @@
                     {% for item in cart.orderHasProducts %}
                         {% set productNumber = productNumber + item.quantity %}
                     {% endfor %}
-                    
+
                         {{ productNumber }}
                         {{ (productNumber <= 1) ? 'Item' : 'Items'}} 
                     </span>
@@ -51,8 +51,6 @@
                     {% for item in cart.orderHasProducts %}
                         {% set productNumber = productNumber + item.quantity %}
                     {% endfor %}
-
-                    {% dump(productNumber) %}
 
                         {{ productNumber }}
                         {{ (productNumber <= 1) ? 'Item' : 'Items'}} 
