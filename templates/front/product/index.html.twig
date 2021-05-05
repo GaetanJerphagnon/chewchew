@@ -12,11 +12,54 @@
         <div class="container mt-0">
             <div class="row">
             {% include 'front/utils/sidebar.html.twig' %}
-                <div class="col-lg-9">
-                    <h1>Hello {{ product.name }} #{{ product.id }}   {{ product.price }}€ ✅</h1>
+            <div id="blog-post" class="col-lg-9">
+              <div class="box">
+                 <div id="post-content">
+                  <p class="text-center"><img src="{{ vich_uploader_asset(product, 'imageFile') | imagine_filter('product_detail') }}" alt="Photo of {{product.name}}" class="img-fluid"></p>
+                  <a href="{{ path('restaurant_index', {'slug' : product.restaurant.slug}) }}"><i class="fa fa-arrow-left mb-4"></i> Back to {{product.restaurant.name}} </a>
+                  <h2 class="mb-4">{{product.name|capitalize}}</h2>
+                <h3 class="mb-4"><strong>{{product.price/100}} €</strong></h3>
+                  <blockquote class="blockquote mb-2">
+                    <p>{{product.description}}</p>
+                  </blockquote>
+                  <div class="text-muted text-small d-flex flex-column flex-lg-row">
+                    <div class="col-12 col-lg-6">
+                        <h5>Ingredients:</h5>
+                        <ul>
+                            <li><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</small></li>
+                            <li><small>Aliquam tincidunt mauris eu risus.</small></li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <h5>Allergens:</h5>
+                        <ul>
+                            <li><small>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</small></li>
+                            <li><small>Aliquam tincidunt mauris eu risus.</small></li>
+                        </ul>
+                    </div>
+                  </div>
                 </div>
+                <!-- /#post-content-->
+               {{ form_start(form, {'attr': {'class': ''}}) }}
+                    <div class="form-group d-flex flex-row align-items-center">
+                        {{ form_label(form.quantity) }}
+                        {{ form_widget(form.quantity, {
+                            'attr': {
+                                'class': 'form-control ' ~ (form.quantity.vars.valid ? '' : 'is-invalid') ~ ' col-2 ml-2'
+                            }
+                        }) }}
+                        <div class="invalid-feedback">
+                            {{ form_errors(form.quantity) }}
+                        </div>
+                    </div>
+                    {{ form_widget(form.add, {'attr': {'class': 'btn btn-primary w-25'}}) }}
+                {{ form_end(form) }}
+                
+              </div>
+              <!-- /.box-->
             </div>
         </div>
-        </div>
+    </div>
+    </div>
 </div>
 {% endblock %}

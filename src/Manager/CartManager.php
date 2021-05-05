@@ -73,4 +73,18 @@ class CartManager
         // Persist in session
         $this->cartSessionStorage->setCart($cart);
     }
+
+    /**
+     * Removes the cart in database and session.
+     *
+     * @param Order $cart
+     */
+    public function remove(Order $cart): void
+    {
+        // Persist in database
+        $this->entityManager->remove($cart);
+        $this->entityManager->flush();
+        // Persist in session
+        $this->cartSessionStorage->removeCart();
+    }
 }

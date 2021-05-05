@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RestaurantController!{% endblock %}
+{% block title %}{{ parent() }} - {{restaurant.name}}{% endblock %}
 
 {% block body %}
     <style>
@@ -34,36 +34,13 @@
                                             <p>{{product.description|length > 80 ? product.description|striptags|slice(0, 80)~'...' : product.description}}</p>
                                             <div class="d-flex flex-row justify-content-start align-items-center">
                                                 <span><strong>{{product.price/100}} €</strong></span>
-                                                <button type="button" class="btn btn-sm btn-primary m-2 ml-5" data-toggle="modal" data-target="#{{product.slug}}-modal">See</button>
+                                                <a href="{{ path('product_detail', { 'slug' : product.slug }) }}" class="btn btn-sm btn-primary m-2 ml-5">See</a>
                                             </div>
                                         </div>
                                         <button data-toggle="modal" data-target="#{{product.slug}}-modal" class="border-0 m-0 p-0">
                                             <img src="{{ vich_uploader_asset(product, 'imageFile') | imagine_filter('product_thumb') }}" alt="Photo of {{product.name}}" class="img-fluid img-box">
                                         </button>
                                     </div>
-                                </div>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="{{product.slug}}-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                        <div class="card" >
-                                            <img class="card-img-top" src="{{ vich_uploader_asset(product, 'imageFile') | imagine_filter('product_detail') }}" alt="Card image cap">
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{product.name}}</h5>
-                                                <p class="card-text">{{product.description}}</p>
-                                                <p><strong>{{product.price/100}} €</strong></p>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <div class="form-group d-flex flex-row align-items-center justify-content-between">
-                                                <label for="quantity">Quantity</label>
-                                                <input type="number" class="form-control mx-3" id="quantity">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i>Add to Cart</button>
-                                        </div>
-                                        </div>
-                                    </div>  
                                 </div>
                             
                             {% endfor %}

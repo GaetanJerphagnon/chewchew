@@ -21,7 +21,7 @@ class Order
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="orders", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="orders", cascade={"persist","remove"})
      */
     private $restaurant;
 
@@ -32,7 +32,7 @@ class Order
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="orders")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
@@ -47,7 +47,7 @@ class Order
     private $total;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderHasProducts::class, mappedBy="orders",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=OrderHasProducts::class, mappedBy="orders", cascade={"persist", "remove"})
      */
     private $orderHasProducts;
 
@@ -55,6 +55,11 @@ class Order
      * @ORM\Column(type="string", length=255)
      */
     private $status = self::STATUS_CART;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     /**
      * An order that is in progress, not placed yet.
@@ -186,6 +191,18 @@ class Order
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

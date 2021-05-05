@@ -75,4 +75,14 @@ class CartSessionStorage
     {
         return $this->session->get(self::CART_KEY_NAME);
     }
+
+    /**
+     * Sets the cart in session.
+     *
+     * @param Order $cart
+     */
+    public function removeCart(): void
+    {
+        $this->session->set(self::CART_KEY_NAME, null);
+    }
 }
