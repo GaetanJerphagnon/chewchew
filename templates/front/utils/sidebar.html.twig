@@ -1,0 +1,125 @@
+
+              
+<div class="col-lg-2">
+    <div class="banner d-flex justify-content-center"><a href="#"><img src="{{ asset('logo.png')}}" alt="ChewChew logo" class="img-fluid"></a></div>
+
+    {% if app.user %}
+    <div class="card sidebar-menu mb-4">
+        <div class="card-header">
+        <h3 class="h4 card-title">Hello {{app.user.firstname}} !</h3>
+        </div>
+        <div class="card-body customer-section">
+        <ul class="nav nav-pills flex-column">
+            <a href="customer-orders.html" class="nav-link nav-link-light"><i class="fa fa-shopping-cart"></i> My cart</a>
+            <a href="customer-orders.html" class="nav-link nav-link-light active-light"><i class="fa fa-list"></i> My orders</a>
+            <a href="customer-account.html" class="nav-link nav-link-light"><i class="fa fa-user"></i> My account</a>
+            <a href="{{ path('app_logout') }}" class="nav-link nav-link-light"><i class="fa fa-sign-out"></i> Logout</a>
+        </ul>
+        </div>
+    </div>
+    {% else %}
+    <div class="card sidebar-menu mb-4">
+        <div class="card-header">
+        <h3 class="h4 card-title">Sign in !</h3>
+        </div>
+        <div class="card-body customer-section">
+        <ul class="nav nav-pills flex-column">
+            <a href="customer-orders.html" class="nav-link nav-link-light active-light"><i class="fa fa-shopping-cart"></i> My Cart</a>
+            <a href="{{ path('app_login') }}" class="nav-link nav-link-light"><i class="fa fa-user"></i> Login</a>
+            <a href="index.html" class="nav-link nav-link-light"><i class="fa fa-sign-in"></i> Register</a>
+        </ul>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="card sidebar-menu mb-4">
+    <div class="card-header">
+        <h3 class="h4 card-title">Categories</h3>
+    </div>
+    <div class="card-body p-0">
+        <ul class="nav nav-pills flex-column category-menu m-0">
+        <li>
+            {% for category in categories() %}
+            
+            <a href="#" class="nav-link">{{ category.name }} <span class="badge badge-secondary"> {{ category.restaurants|length }} </span></a>
+            {% endfor %}
+        </li>
+        </ul>
+    </div>
+    </div>
+
+    {# <div class="card sidebar-menu mb-4">
+    <div class="card-header">
+        <h3 class="h4 card-title">Brands <a href="#" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</a></h3>
+    </div>
+    <div class="card-body">
+        <form>
+        <div class="form-group">
+            <div class="checkbox">
+            <label>
+                <input type="checkbox"> Armani  (10)
+            </label>
+            </div>
+            <div class="checkbox">
+            <label>
+                <input type="checkbox"> Versace  (12)
+            </label>
+            </div>
+            <div class="checkbox">
+            <label>
+                <input type="checkbox"> Carlo Bruni  (15)
+            </label>
+            </div>
+            <div class="checkbox">
+            <label>
+                <input type="checkbox"> Jack Honey  (14)
+            </label>
+            </div>
+        </div>
+        <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
+        </form>
+    </div>
+    </div> #}
+
+    {# <div class="card sidebar-menu mb-4">
+    <div class="card-header">
+        <h3 class="h4 card-title">Colours <a href="#" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</a></h3>
+    </div>
+    <div class="card-body">
+        <form>
+        <div class="form-group">
+            <div class="checkbox">
+            <label>
+                <input type="checkbox"><span class="colour white"></span> White (14)
+            </label>
+            </div>
+            <div class="checkbox">
+            <label>
+                <input type="checkbox"><span class="colour blue"></span> Blue (10)
+            </label>
+            </div>
+            <div class="checkbox">
+            <label>
+                <input type="checkbox"><span class="colour green"></span>  Green (20)
+            </label>
+            </div>
+            <div class="checkbox">
+            <label>
+                <input type="checkbox"><span class="colour yellow"></span>  Yellow (13)
+            </label>
+            </div>
+            <div class="checkbox">
+            <label>
+                <input type="checkbox"><span class="colour red"></span>  Red (10)
+            </label>
+            </div>
+        </div>
+        <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
+        </form>
+    </div>
+    </div> #}
+
+    <!-- *** MENUS AND FILTERS END ***-->
+
+    <div class="banner"><a href="#"><img src="{{ asset('img/banner.jpg')}}" alt="sales 2014" class="img-fluid"></a></div>
+</div>

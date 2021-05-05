@@ -9,16 +9,47 @@
     </style>
 
 
-    <div class="container mt-0 p-0">
+    <div id="all">
+        <div id="content">
+            <div class="container-fluid mt-0">
+                <div class="row">
+                    {% include 'front/utils/sidebar.html.twig' %}
+                    <div class="col-lg-10">
 
-        <div class="box  border-0 restaurant-banner text-white" style="background-image: url('{{ vich_uploader_asset(restaurant, 'imageFile') | imagine_filter('restaurant_banner') }}')">
-            <div class="overlay"></div>
-            <div class="informations d-flex justify-content-center flex-column m-auto">
-                <h2>{{restaurant.name}}</h2>
-                <p>{{restaurant.description}}</p>
+                        <div class="box border-0 restaurant-banner text-white mb-2" style="background-image: url('{{ vich_uploader_asset(restaurant, 'imageFile') | imagine_filter('restaurant_banner') }}')">
+                            <div class="overlay"></div>
+                            <div class="informations d-flex justify-content-center flex-column m-auto">
+                                <h2 class="font-alpha">{{restaurant.name}}</h2>
+                                <p>{{restaurant.description}}</p>
+                            </div>
+                        </div>
+                        <a href="{{ path('homepage') }}"><i class="fa fa-arrow-left mb-4"></i> Back to restaurants </a>
+                        <div class="row products">
+                            {% for product in restaurant.products %}
+
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="product product-card border-5 border-top border-right border-bottom border-warning d-flex flex-direction-row justify-content-between">
+                                        <div class="text m-1 d-flex flex-column justify-content-between pr-0">
+                                            <h5 class="mb-0"><a href="{{ path('restaurant_index', { 'slug': product.slug }) }}"> {{product.name|capitalize}} </a></h5>
+                                            <p>{{product.description|length > 100 ? product.description|striptags|slice(0, 100)~'...' : product.description}}</p>
+                                            <div class="d-flex flex-row justify-content-start align-items-center">
+                                                <button href="basket.html" class="btn btn-sm btn-primary m-2">Add</button>
+                                                <span><strong>{{product.price/100}} €</strong></span>
+                                            </div>
+                                        </div>
+                                        <a href="{{ path('product_index', { 'slug': product.slug }) }}">
+                                            <img src="{{ vich_uploader_asset(product, 'imageFile') | imagine_filter('product_thumb') }}" alt="Photo of {{product.name}}" class="img-fluid img-box">
+                                        </a>
+                                    </div>
+                                </div>
+                            
+                            {% endfor %}
+                        </div>
+
+                        
+                    </div>
+                </div>
             </div>
-        </div>
-
-
+         </div>
     </div>
 {% endblock %}

@@ -40,15 +40,7 @@ class DashboardController extends AbstractDashboardController
 
     ;
         return parent::configureUserMenu($user)
-            ->setAvatarUrl($this->getParameter('user_pictures')."/".$user->getPicture())
-
-            // you can use any type of menu item, except submenus
-            ->addMenuItems([
-                MenuItem::linkToRoute('My Profile', 'fa fa-id-card', '...', ['...' => '...']),
-                MenuItem::linkToRoute('Settings', 'fa fa-user-cog', '...', ['...' => '...']),
-                MenuItem::section(),
-                MenuItem::linkToLogout('Logout', 'fa fa-sign-out'),
-            ]);
+            ->setAvatarUrl($this->getParameter('user_pictures')."/".$user->getPicture());
     }
 
         /**
@@ -93,5 +85,6 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::section('My informations', 'fa fa-info');
             yield MenuItem::linkToCrud('Profile', 'fas fa-user', User::class)->setAction(Action::DETAIL)->setEntityId($this->getUser()->getId());
             yield MenuItem::linkToCrud('Your Restaurants', 'fas fa-utensils', Restaurant::class);
+            yield MenuItem::linkToRoute('Back to site', 'fas fa-undo', 'homepage');
     }
 }
