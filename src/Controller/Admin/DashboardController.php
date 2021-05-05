@@ -34,11 +34,6 @@ class DashboardController extends AbstractDashboardController
 
     public function configureUserMenu(UserInterface $user): UserMenu
     {
-        // Usually it's better to call the parent method because that gives you a
-        // user menu with some menu items already created ("sign out", "exit impersonation", etc.)
-        // if you prefer to create the user menu from scratch, use: return UserMenu::new()->...
-
-    ;
         return parent::configureUserMenu($user)
             ->setAvatarUrl($this->getParameter('user_pictures')."/".$user->getPicture());
     }
@@ -85,6 +80,7 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::section('My informations', 'fa fa-info');
             yield MenuItem::linkToCrud('Profile', 'fas fa-user', User::class)->setAction(Action::DETAIL)->setEntityId($this->getUser()->getId());
             yield MenuItem::linkToCrud('Your Restaurants', 'fas fa-utensils', Restaurant::class);
+            yield MenuItem::section('');
             yield MenuItem::linkToRoute('Back to site', 'fas fa-undo', 'homepage');
     }
 }
