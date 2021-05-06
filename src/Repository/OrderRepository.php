@@ -32,6 +32,20 @@ class OrderRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findUserCart($user)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.user = :id')
+            ->setParameter('id', $user->getId())
+            ->andWhere('o.status = :cart')
+            ->setParameter('cart', 'cart')
+            ->orderBy('o.createdAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
    
 
     /*

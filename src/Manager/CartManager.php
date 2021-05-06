@@ -3,7 +3,9 @@
 namespace App\Manager;
 
 use App\Entity\Order;
+use App\Entity\User;
 use App\Factory\OrderFactory;
+use App\Repository\OrderRepository;
 use App\Storage\CartSessionStorage;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -24,6 +26,11 @@ class CartManager
     private $cartFactory;
 
     /**
+     * @var OrderRepository
+     */
+    private $orderRepository;
+
+    /**
      * @var EntityManagerInterface
      */
     private $entityManager;
@@ -37,10 +44,12 @@ class CartManager
     public function __construct(
         CartSessionStorage $cartStorage,
         OrderFactory $orderFactory,
-        EntityManagerInterface $entityManager
+        OrderRepository $orderRepository,
+        EntityManagerInterface $entityManager,
     ) {
         $this->cartSessionStorage = $cartStorage;
         $this->cartFactory = $orderFactory;
+        $this->orderRepository = $orderRepository;
         $this->entityManager = $entityManager;
     }
 
@@ -52,6 +61,29 @@ class CartManager
     public function getCurrentCart(): Order
     {
         $cart = $this->cartSessionStorage->getCart();
+
+        if (!$cart) {
+            $cart = $this->cartFactory->create();
+        }
+
+        return $cart;
+    }
+
+    /**
+     * Gets the current cart.
+     * 
+     * @return Order
+     */
+    public function getUserCart(User $user): Order
+    {
+        $cart = $this->orderRepository->findUserCart($user);
+        if($cart){
+            $cart = $this->cartSessionStorage->setCart($cart);
+        }
+
+        if (!$cart) {
+            $cart = $this->cartSessionStorage->getCart();
+        }
 
         if (!$cart) {
             $cart = $this->cartFactory->create();

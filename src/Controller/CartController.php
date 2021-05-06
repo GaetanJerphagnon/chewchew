@@ -15,7 +15,11 @@ class CartController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(CartManager $cartManager, Request $request): Response
     {
-        $cart = $cartManager->getCurrentCart();
+        if($user = $this->getUser()){
+            $cart = $cartManager->getUserCart($user);
+        } else {   
+            $cart = $cartManager->getCurrentCart();
+        }
 
         $form = $this->createForm(CartType::class, $cart);
         $form->handleRequest($request);
