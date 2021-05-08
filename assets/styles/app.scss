@@ -77,25 +77,25 @@
   }
 }
 
-.customer-section {
-  ul .nav-link-light {
-    font-weight: bolder;
-    color: #6c757d !important;
-    &:hover {
-      color: white !important;
-      background-color: #345973 !important;
-    }
-  }
-
-  ul .active-light {
-    background-color: #345973 !important;
-    color: white !important;
-  }
-}
-
 .product-image {
   background-color: blueviolet;
 }
 .product-card {
   font-size: 0.7rem !important;
+}
+
+.nav-link-light {
+  font-weight: bolder;
+  color: #6c757d !important;
+  line-height: 1em;
+
+  &:hover {
+    color: white !important;
+    background-color: #345973 !important;
+  }
+}
+
+.active-light {
+  background-color: #345973 !important;
+  color: white !important;
 }

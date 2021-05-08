@@ -1,17 +1,40 @@
 
               
 <div class="col-lg-3">
-    <div class="banner d-flex justify-content-center"><a href="#"><img src="{{ asset('logo.png')}}" alt="ChewChew logo" class="img-fluid"></a></div>
+    <div class="banner d-flex justify-content-center"><a href="{{path('homepage')}}"><img src="{{ asset('logo.png')}}" alt="ChewChew logo" class="img-fluid"></a></div>
 
     {% if app.user %}
     <div class="card sidebar-menu mb-4">
-        <div class="card-header">
-        <h3 class="h4 card-title">Hello {{app.user.firstname}} !</h3>
+        <div class="card-header {% if is_granted('ROLE_ADMIN') %}bg-dark text-white{% endif %} {% if is_granted('ROLE_RESTAURATEUR') %}bg-primary text-white{% endif %}">
+        <h3 class="h4 card-title ">Hello {{app.user.firstname}} !</h3>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('admin') }}" class="text-warning"><i class="fas fa-door-open"></i> Administration</a>
+        {% endif %}
+        {% if is_granted('ROLE_RESTAURATEUR') %}
+            <a href="{{ path('profile') }}" class="text-warning"><i class="fas fa-cogs"></i> Restaurant Manager</a>
+        {% endif %}
         </div>
         <div class="card-body customer-section">
         <ul class="nav nav-pills flex-column">
-            <a href="customer-orders.html" class="nav-link nav-link-light"><i class="fa fa-shopping-cart"></i> My cart</a>
-            <a href="customer-orders.html" class="nav-link nav-link-light active-light"><i class="fa fa-list"></i> My orders</a>
+            <a href="{{ path('cart_index') }}" class="nav-link nav-link-light {{ app.request.get('_route') == 'cart_index' ? 'active-light' : '' }}">
+                <i class="fa fa-shopping-cart"></i>
+                 My cart 
+                {% if cart is not null %}
+                    
+                    {% set productNumber = 0 %}
+
+                    {% for item in cart.orderHasProducts %}
+                        {% set productNumber = productNumber + item.quantity %}
+                    {% endfor %}
+                        {% if productNumber != 0 %}
+                            <span class="badge badge-warning ml-4">
+                                {{ productNumber }}
+                                {{ (productNumber <= 1) ? 'Item' : 'Items'}}
+                            </span> 
+                        {% endif %}
+                {% endif %}
+            </a>
+            <a href="customer-orders.html" class="nav-link nav-link-light"><i class="fa fa-list"></i> My orders</a>
             <a href="customer-account.html" class="nav-link nav-link-light"><i class="fa fa-user"></i> My account</a>
             <a href="{{ path('app_logout') }}" class="nav-link nav-link-light"><i class="fa fa-sign-out"></i> Logout</a>
         </ul>
@@ -24,35 +47,25 @@
         </div>
         <div class="card-body customer-section">
         <ul class="nav nav-pills flex-column">
-            <a href="customer-orders.html" class="nav-link nav-link-light active-light"><i class="fa fa-shopping-cart"></i> My Cart</a>
-            <a href="{{ path('app_login') }}" class="nav-link nav-link-light" data-toggle="modal" data-target="#login-modal"><i class="fa fa-user"></i> Login</a>
+            <a href="{{ path('cart_index') }}" class="nav-link nav-link-light">
+                <i class="fa fa-shopping-cart"></i>
+                 My cart 
+                {% if cart is not null %}
+                    {% set productNumber = 0 %}
 
-                <div id="login-modal" tabindex="-1" role="dialog" aria-labelledby="Login" aria-hidden="true" class="modal fade">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Customer login</h5>
-                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="customer-orders.html" method="post">
-                            <div class="form-group">
-                                <input id="email-modal" type="text" placeholder="email" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <input id="password-modal" type="password" placeholder="password" class="form-control">
-                            </div>
-                            <p class="text-center">
-                                <button class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>
-                            </p>
-                            </form>
-                            <p class="text-center text-muted">Not registered yet?</p>
-                            <p class="text-center text-muted"><a href="register.html"><strong>Register now</strong></a>! It is easy and done in 1 minute and gives you access to special discounts and much more!</p>
-                        </div>
-                        </div>
-                    </div>
-                </div>
+                    <span class="badge badge-warning ml-4">
+                    {% for item in cart.orderHasProducts %}
+                        {% set productNumber = productNumber + item.quantity %}
+                    {% endfor %}
 
+                        {{ productNumber }}
+                        {{ (productNumber <= 1) ? 'Item' : 'Items'}} 
+                    </span>
+                {% else %}
+                    <span class="badge badge-warning ml-4">Empty</span>
+                {% endif %}
+            </a>
+            <a href="{{ path('app_login') }}" class="nav-link nav-link-light"><i class="fa fa-user"></i> Login</a>
         </ul>
         </div>
     </div>
@@ -63,11 +76,21 @@
         <h3 class="h4 card-title">Categories</h3>
     </div>
     <div class="card-body p-0">
-        <ul class="nav nav-pills flex-column category-menu m-0">
+        <ul class="nav nav-pills flex-column m-0">
         <li>
+            <a href="{{ path('homepage') }}" class="nav-link nav-link-light d-flex flew-row justify-content-between {{ app.request.get('_route') == 'homepage' ? 'active-light' : '' }}">
+                All
+                <span class="badge badge-secondary">
+                    {{ restaurantNumber() }} 
+                </span>
+            </a>
             {% for category in categories() %}
-            
-            <a href="#" class="nav-link">{{ category.name }} <span class="badge badge-secondary"> {{ category.restaurants|length }} </span></a>
+                <a href="{{ path('homepage_category', {'slug' : category.slug}) }}" class="nav-link nav-link-light d-flex flew-row justify-content-between {{ (app.request.get('_route') == 'homepage_category' and app.request.attributes.get('_route_params')['slug'] == category.slug ) ? 'active-light' : '' }}">
+                    {{ category.name }} 
+                    <span class="badge badge-secondary">
+                     {{ category.restaurants|length }} 
+                    </span>
+                </a>
             {% endfor %}
         </li>
         </ul>
@@ -147,5 +170,5 @@
 
     <!-- *** MENUS AND FILTERS END ***-->
 
-    <div class="banner"><a href="#"><img src="{{ asset('img/banner.jpg')}}" alt="sales 2014" class="img-fluid"></a></div>
+    {# <div class="banner"><a href="#"><img src="{{ asset('img/banner.jpg')}}" alt="sales 2014" class="img-fluid"></a></div> #}
 </div>

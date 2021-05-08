@@ -1,12 +1,12 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
-{% block page_title %}Hello {{user.firstname}} {{user.lastname}}{% endblock %}
+{% block page_title %}Hello {{app.user.firstname}} {{app.user.lastname}}{% endblock %}
 
 {% block page_content %}
     {% include '@EasyAdmin/flash_messages.html.twig' %}
 
     <div>
-        {% for order in lastOrders %}
+        {# {% for order in lastOrders %}
             <div class="card mb-2">
                 <div class="card-header p-1 pl-4">
                     <span># {{ order.id }}</span>
@@ -28,6 +28,6 @@
                     <small class="text-muted">Order on {{order.createdAt|format_datetime('full')}}</small>
                 </div>
             </div>
-        {% endfor %}
+        {% endfor %} #}
     </div>
 {% endblock %}

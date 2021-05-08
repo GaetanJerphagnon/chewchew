@@ -32,17 +32,39 @@ class OrderRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
-   
 
-    /*
-    public function findOneBySomeField($value): ?Order
+    public function findUserCart($user)
     {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('o.user = :id')
+            ->setParameter('id', $user->getId())
+            ->andWhere('o.status = :status')
+            ->setParameter('status', Order::STATUS_CART)
+            ->orderBy('o.createdAt', 'DESC')
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+   
+    /**
+     * Finds carts that have not been modified since the given date.
+     *
+     * @param \DateTime $limitDate
+     * @param int $limit
+     *
+     * @return int|mixed|string
+     */
+    public function findCartsNotModifiedSince(\DateTime $limitDate, int $limit = 10): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.status = :status')
+            ->andWhere('o.updatedAt < :date')
+            ->setParameter('status', Order::STATUS_CART)
+            ->setParameter('date', $limitDate)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

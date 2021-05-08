@@ -79,7 +79,7 @@ class Product
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderHasProducts::class, mappedBy="products", fetch="EAGER")
+     * @ORM\OneToMany(targetEntity=OrderHasProducts::class, mappedBy="products", cascade={"persist", "remove"})
      */
     private $productHasOrders;
 
