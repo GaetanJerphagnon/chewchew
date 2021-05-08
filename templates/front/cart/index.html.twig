@@ -9,14 +9,13 @@
           <div class="row">
           {% include 'front/utils/sidebar.html.twig' %}
                 <div class="col-lg-9 my-4">
-                    <h1>Your Cart</h1>
                     {% if (cart is not null) and (cart.orderHasProducts.count > 0) %}
                         <div class="row mt-4">
                             <div class="col-md-8">
                                 {{ form_start(form) }}
                                 <div class="card border-0">
                                     <div class="card-header bg-primary text-white d-flex">
-                                        <h5>Items</h5>
+                                        <h4>Your cart contains <b>{{ cart.orderHasProducts.count }}</b> different item{{ (cart.orderHasProducts.count == 1) ? '' : 's'}}</h4>
                                         <div class="ml-auto">
                                             {{ form_widget(form.save, {'attr': {'class': 'btn btn-warning'}}) }}
                                             {{ form_widget(form.clear, {'attr': {'class': 'btn btn-light'}}) }}
@@ -43,10 +42,13 @@
                                                             </div>
                                                         </div>
                                                         {{ form_widget(item.remove, {'attr': {'class': 'btn btn-primary btn-sm'}}) }}
+                                                        <div class="flex-fill mr-2 text-right">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="flex-fill mr-2 text-right">
-                                                    <b>{{ item.vars.data.products.price/100 }} €</b>
+                                                <div class="flex-fill mr-2 text-right d-flex flex-column justify-content-between">
+                                                    <span class="text-muted">{{ item.vars.data.quantity }}x <b>{{ item.vars.data.products.price/100 }} €</b></span>
+                                                    <span><small>Total: </small><b>{{ item.vars.data.products.price/100 * item.vars.data.quantity}} €</b></span>
                                                 </div>
                                             </li>
                                         {% endfor %}
@@ -75,7 +77,6 @@
                         </div>
                     {% endif %}
 
-                </div>
           </div>  
         </div>
       </div>  

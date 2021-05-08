@@ -1,12 +1,18 @@
 
               
 <div class="col-lg-3">
-    <div class="banner d-flex justify-content-center"><a href="#"><img src="{{ asset('logo.png')}}" alt="ChewChew logo" class="img-fluid"></a></div>
+    <div class="banner d-flex justify-content-center"><a href="{{path('homepage')}}"><img src="{{ asset('logo.png')}}" alt="ChewChew logo" class="img-fluid"></a></div>
 
     {% if app.user %}
     <div class="card sidebar-menu mb-4">
-        <div class="card-header">
-        <h3 class="h4 card-title">Hello {{app.user.firstname}} !</h3>
+        <div class="card-header {% if is_granted('ROLE_ADMIN') %}bg-dark text-white{% endif %} {% if is_granted('ROLE_RESTAURATEUR') %}bg-primary text-white{% endif %}">
+        <h3 class="h4 card-title ">Hello {{app.user.firstname}} !</h3>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('admin') }}" class="text-warning"><i class="fas fa-door-open"></i> Administration</a>
+        {% endif %}
+        {% if is_granted('ROLE_RESTAURATEUR') %}
+            <a href="{{ path('profile') }}" class="text-warning"><i class="fas fa-cogs"></i> Restaurant Manager</a>
+        {% endif %}
         </div>
         <div class="card-body customer-section">
         <ul class="nav nav-pills flex-column">
@@ -14,18 +20,18 @@
                 <i class="fa fa-shopping-cart"></i>
                  My cart 
                 {% if cart is not null %}
-                    <span class="badge badge-warning ml-4">
+                    
                     {% set productNumber = 0 %}
 
                     {% for item in cart.orderHasProducts %}
                         {% set productNumber = productNumber + item.quantity %}
                     {% endfor %}
-
-                        {{ productNumber }}
-                        {{ (productNumber <= 1) ? 'Item' : 'Items'}} 
-                    </span>
-                {% else %}
-                    <span class="badge badge-warning ml-4">Empty</span>
+                        {% if productNumber != 0 %}
+                            <span class="badge badge-warning ml-4">
+                                {{ productNumber }}
+                                {{ (productNumber <= 1) ? 'Item' : 'Items'}}
+                            </span> 
+                        {% endif %}
                 {% endif %}
             </a>
             <a href="customer-orders.html" class="nav-link nav-link-light"><i class="fa fa-list"></i> My orders</a>
@@ -45,9 +51,9 @@
                 <i class="fa fa-shopping-cart"></i>
                  My cart 
                 {% if cart is not null %}
-                    <span class="badge badge-warning ml-4">
                     {% set productNumber = 0 %}
 
+                    <span class="badge badge-warning ml-4">
                     {% for item in cart.orderHasProducts %}
                         {% set productNumber = productNumber + item.quantity %}
                     {% endfor %}
@@ -79,7 +85,7 @@
                 </span>
             </a>
             {% for category in categories() %}
-                <a href="#" class="nav-link nav-link-light d-flex flew-row justify-content-between">
+                <a href="{{ path('homepage_category', {'slug' : category.slug}) }}" class="nav-link nav-link-light d-flex flew-row justify-content-between {{ (app.request.get('_route') == 'homepage_category' and app.request.attributes.get('_route_params')['slug'] == category.slug ) ? 'active-light' : '' }}">
                     {{ category.name }} 
                     <span class="badge badge-secondary">
                      {{ category.restaurants|length }} 
@@ -164,5 +170,5 @@
 
     <!-- *** MENUS AND FILTERS END ***-->
 
-    <div class="banner"><a href="#"><img src="{{ asset('img/banner.jpg')}}" alt="sales 2014" class="img-fluid"></a></div>
+    {# <div class="banner"><a href="#"><img src="{{ asset('img/banner.jpg')}}" alt="sales 2014" class="img-fluid"></a></div> #}
 </div>

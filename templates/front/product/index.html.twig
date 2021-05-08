@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
+{% block title %}{{ parent() }} - {{product.name}}{% endblock %}
 
 {% block body %}
 <style>
@@ -13,7 +13,7 @@
             <div class="row">
             {% include 'front/utils/sidebar.html.twig' %}
             <div id="blog-post" class="col-lg-9">
-              <div class="box">
+              <div class="box mt-5">
                  <div id="post-content">
                   <p class="text-center"><img src="{{ vich_uploader_asset(product, 'imageFile') | imagine_filter('product_detail') }}" alt="Photo of {{product.name}}" class="img-fluid"></p>
                   <a href="{{ path('restaurant_index', {'slug' : product.restaurant.slug}) }}"><i class="fa fa-arrow-left mb-4"></i> Back to {{product.restaurant.name}} </a>
@@ -52,7 +52,38 @@
                             {{ form_errors(form.quantity) }}
                         </div>
                     </div>
-                    {{ form_widget(form.add, {'attr': {'class': 'btn btn-primary w-25'}}) }}
+                    
+                    {% if  cart() is not null and  cartRestaurantId is not null and cartRestaurantId != product.restaurant.id %}
+                        <button type="button" class="btn btn-warning w-25" data-toggle="modal" data-target="#changeRestaurantModal">Add</button>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="changeRestaurantModal" tabindex="-1" role="dialog" aria-labelledby="changeRestaurantModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header bg-warning">
+                                    <h5 class="modal-title" id="changeRestaurantModalLabel"><i class="fa fa-warning"></i> Be advised</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    You were ordering from <b>{{ cartRestaurant().name }}</b>.</br>
+                                    </br>
+                                    You are about to switch to <b>{{ product.restaurant.name }}</b>.</br>
+                                    </br>
+                                    You can however add <em>{{ product.name }}</em> to your cart but this action will <b class="text-danger">delete</b> you previous Cart.
+                                </div>
+                                <div class="modal-footer d-flex flew-row justify-content-between">
+                                    {{ form_widget(form.add, {'attr': {'class': 'btn btn-primary'}, 'label' : 'Add in a new Cart'}) }}
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        {{ form_widget(form.add, {'attr': {'class': 'btn btn-primary w-25'}}) }}
+                    {% endif %}
+
                 {{ form_end(form) }}
                 
               </div>

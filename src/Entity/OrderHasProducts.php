@@ -20,14 +20,14 @@ class OrderHasProducts
     
     /**
      * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderHasProducts", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="orderHasProducts", cascade={"persist"})
      * @ORM\JoinColumn(name="order_id", referencedColumnName="id",nullable=true)
      */
     private $orders;
     
     /**
      * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="productHasOrders", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="productHasOrders", cascade={"persist"})
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id",nullable=true)
      */
     private $products;

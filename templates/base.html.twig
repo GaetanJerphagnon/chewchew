@@ -33,6 +33,9 @@
     </head>
     <body>
         {% set cart = cart() %}
+        {% set cartRestaurantId = cartRestaurantId() %}
+
+        {% dump(cartRestaurantId) %}
 
         {% block body %}{% endblock %}
 

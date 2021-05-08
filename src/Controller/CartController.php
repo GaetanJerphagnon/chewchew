@@ -15,17 +15,21 @@ class CartController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(CartManager $cartManager, Request $request): Response
     {
-        if($user = $this->getUser()){
-            $cart = $cartManager->getUserCart($user);
-        } else {   
-            $cart = $cartManager->getCurrentCart();
-        }
+        $cart = $cartManager->getCurrentCart();
 
         $form = $this->createForm(CartType::class, $cart);
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach($cart->getOrderHasProducts() as $item){
+                if ($item->getQuantity() === 0)
+                {
+                    $cart->removeOrderHasProduct($item);
+                }
+            }
+
             $cart->setUpdatedAt(new \DateTime());
             $cartManager->save($cart);
 

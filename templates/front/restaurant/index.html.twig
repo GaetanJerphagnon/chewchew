@@ -27,8 +27,8 @@
                         <div class="row products">
                             {% for product in restaurant.products %}
 
-                                <div class="col-lg-6 col-md-6 p-1">
-                                    <div class="product product-card border-5 border-top border-right border-bottom border-warning d-flex flex-direction-row justify-content-between">
+                                <div class="col-lg-6 col-md-6 p-2">
+                                    <div class="product product-card m-0 border-5 border-top border-right border-bottom border-warning d-flex flex-direction-row justify-content-between">
                                         <div class="text m-1 d-flex flex-column justify-content-between pr-0 mx">
                                             <h5 class="mb-0"><a href="{{ path('restaurant_index', { 'slug': product.slug }) }}"> {{product.name|capitalize}} </a></h5>
                                             <p>{{product.description|length > 80 ? product.description|striptags|slice(0, 80)~'...' : product.description}}</p>
@@ -37,8 +37,10 @@
                                                 <a href="{{ path('product_detail', { 'slug' : product.slug }) }}" class="btn btn-sm btn-primary m-2 ml-5">See</a>
                                             </div>
                                         </div>
-                                        <button data-toggle="modal" data-target="#{{product.slug}}-modal" class="border-0 m-0 p-0">
-                                            <img src="{{ vich_uploader_asset(product, 'imageFile') | imagine_filter('product_thumb') }}" alt="Photo of {{product.name}}" class="img-fluid img-box">
+                                        <button class="border-0 m-0 p-0">
+                                            <a href="{{ path('product_detail', { 'slug' : product.slug }) }}" class="btn btn-sm btn-primary m-0 p-0 border-0">
+                                                <img src="{{ vich_uploader_asset(product, 'imageFile') | imagine_filter('product_thumb') }}" alt="Photo of {{product.name}}" class="img-fluid img-box">
+                                            </a>
                                         </button>
                                     </div>
                                 </div>

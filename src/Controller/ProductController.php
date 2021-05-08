@@ -21,15 +21,42 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $item = $form->getData();
-            $item->setProducts($product);
+            $alreadyHasProduct = false;
+            $currentItem = $form->getData();
+            $currentItem->setProducts($product);
             
             $cart = $cartManager->getCurrentCart();
+            
+          
+            // If there's no restaurant already selected (indirectly via products)
+            if($currentItem->getProducts()->getRestaurant()->getId() !== $cartManager->getCurrentRestaurant()){
+                $cartManager->remove($cart);
+                $cart = $cartManager->getCurrentCart();
+            }
+            
+            
+            foreach($cart->getOrderHasProducts() as $item){
 
-            $cart
-            ->addOrderHasProduct($item)
-            ->setUpdatedAt(new \DateTime());
 
+                // If product is already in cart, if so add quantities
+                if ($currentItem->getProducts() === $item->getProducts())
+                {
+                    $newQuantity = $currentItem->getQuantity() + $item->getQuantity();
+                    $item->setQuantity($newQuantity);
+                    $cart->setUpdatedAt(new \DateTime());
+                    $alreadyHasProduct = true;
+                }
+                
+            }
+            
+            // If product is not already in cart, add it normally
+            if(!$alreadyHasProduct){
+                $cart
+                ->addOrderHasProduct($currentItem)
+                ->setUpdatedAt(new \DateTime());
+            }
+
+            // If there's a user connected, link it to the cart
             if(!$cart->getUser() && $user = $this->getUser()){
                 $cart->setUser($user);
             }

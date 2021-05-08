@@ -3,11 +3,13 @@
 namespace App\Manager;
 
 use App\Entity\Order;
+use App\Entity\Restaurant;
 use App\Entity\User;
 use App\Factory\OrderFactory;
 use App\Repository\OrderRepository;
 use App\Storage\CartSessionStorage;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class CartManager
@@ -35,6 +37,8 @@ class CartManager
      */
     private $entityManager;
 
+    private $security;
+
     /**
      * CartManager constructor.
      *
@@ -43,14 +47,16 @@ class CartManager
      */
     public function __construct(
         CartSessionStorage $cartStorage,
+        EntityManagerInterface $entityManager,
         OrderFactory $orderFactory,
         OrderRepository $orderRepository,
-        EntityManagerInterface $entityManager,
+        Security $security,
     ) {
         $this->cartSessionStorage = $cartStorage;
+        $this->entityManager = $entityManager;
         $this->cartFactory = $orderFactory;
         $this->orderRepository = $orderRepository;
-        $this->entityManager = $entityManager;
+        $this->security = $security;
     }
 
     /**
@@ -60,25 +66,13 @@ class CartManager
      */
     public function getCurrentCart(): Order
     {
-        $cart = $this->cartSessionStorage->getCart();
-
-        if (!$cart) {
-            $cart = $this->cartFactory->create();
-        }
-
-        return $cart;
-    }
-
-    /**
-     * Gets the current cart.
-     * 
-     * @return Order
-     */
-    public function getUserCart(User $user): Order
-    {
-        $cart = $this->orderRepository->findUserCart($user);
-        if($cart){
-            $cart = $this->cartSessionStorage->setCart($cart);
+        $cart = null;
+        if($user = $this->security->getUser()){
+            $cart = $this->orderRepository->findUserCart($user);
+            
+            if($cart){
+                $cart = $this->cartSessionStorage->setCart($cart);
+            }
         }
 
         if (!$cart) {
@@ -90,6 +84,16 @@ class CartManager
         }
 
         return $cart;
+    }
+
+        /**
+     * Gets the current restaurant.
+     * 
+     * @return int|null
+     */
+    public function getCurrentRestaurant(): ?int
+    {
+        return $this->cartSessionStorage->getCartRestaurantId();
     }
 
     /**

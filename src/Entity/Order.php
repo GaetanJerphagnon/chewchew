@@ -47,7 +47,7 @@ class Order
     private $total;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderHasProducts::class, mappedBy="orders", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=OrderHasProducts::class, mappedBy="orders", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $orderHasProducts;
 
@@ -182,6 +182,21 @@ class Order
 
         return $this;
     }
+
+    /**
+     * Removes all items from the order.
+     *
+     * @return $this
+     */
+    public function removeAllOrderHasProducts(): self
+    {
+        foreach ($this->getOrderHasProducts() as $item) {
+            $this->removeOrderHasProduct($item);
+        }
+
+        return $this;
+    }
+
 
     public function getStatus(): ?string
     {
