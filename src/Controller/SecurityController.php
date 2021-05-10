@@ -18,33 +18,31 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('target_path');
         } */
 
-        /* // get the login error if there is one
+        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]); */
+        return $this->render('front/login/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
 
 
     
-        $error = $authenticationUtils->getLastAuthenticationError();
+        /* $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', [
 
             'error' => $error,
             'last_username' => $lastUsername,
-            'translation_domain' => 'admin',
-            'page_title' => 'Chewchew Admin',
+            'page_title' => 'Log in!',
             'csrf_token_intention' => 'authenticate',
-            'target_path' => $this->generateUrl('admin'),
+            'target_path' => $this->generateUrl('homepage'),
             'username_label' => 'Email',
             'username_parameter' => 'email',
             'password_label' => 'Password',
             'password_parameter' => 'password',
             'sign_in_label' => 'Log in',
-        ]);
-
+        ]); */
     }
 
     /**

@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %} 
+    <script type="text/javascript" src="{{ asset('js/requestSender.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/loginPage.js') }}"></script>
+{% endblock %}  
+
+{% block title %}{{ parent() }}-Connexion{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+{# <div class="container mb-4 form">
+    <div class="alert alert-dismissible alert-danger hidden">
+     </div>
+    {{ form_start(form, {'attr': {'id': 'form_login'}}) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.password) }}
+        
+        {{ form_errors(form) }}
+        <button type="submit" class="btn btn-dark btn-login">Connexion</button>
+    {{ form_end(form) }}
+
+</div>
+ #}
+<div class="col-lg-9 mt-5 d-flex flex-row justify-content-center align-items-center">
+    <div class="box col-lg-6">
+    <h1>Login</h1>
+    <p class="lead">Already our customer?</p>
+    <hr>
+    {% if error %}
+        <p class="msgError alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+    {% endif %}
+    <form action="{{ path('app_login') }}" method="post">
+        <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" class="form-control">
+        </div>
+        <div class="text-center">
+        <input type="hidden" name="_csrf_token"
+            value="{{ csrf_token('authenticate') }}"
+        >
+        
+        <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>
+        </div>
+        {% if app.user %}
+            <div class="alert alert-info my-2">
+                <p>You already are connected as <b>{{ app.user.username }}</b></p>
+                <a class="logout text-primary"href="{{ path('app_logout') }}"><i class="fa fa-sign-out"></i> Logout</a>
+            </div>
+            
+        {% endif %}
+    </form>
+        
+        <p class="text-muted mt-2">
+            <p class="text-muted mb-1"><a href="#">Forgot Password? TODO</a></p>
+            <p class="text-muted mb-1mb-1">Don't have an account yet? <a href="#">Register TODO</a></p>
+        </p>
+    </div>
+</div>
+
+{% endblock %}
+

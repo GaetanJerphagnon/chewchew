@@ -15,10 +15,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Menu\SubMenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class AdminDashboardController extends AbstractDashboardController
 {
@@ -30,9 +32,15 @@ class AdminDashboardController extends AbstractDashboardController
         return parent::index();
     }
 
+    public function configureUserMenu(UserInterface $user): UserMenu
+    {
+        return parent::configureUserMenu($user)
+            ->setAvatarUrl($this->getParameter('user_pictures')."/".$user->getPicture());
+    }
+
     public function configureDashboard(): Dashboard
     {
-        return Dashboard::new()->setTitle('Administration')->renderContentMaximized();
+        return Dashboard::new()->setTitle('<img src="logo-mini.ico"> Chewchew Administration ')->renderContentMaximized();
     }
 
     public function configureMenuItems(): iterable
@@ -55,6 +63,8 @@ class AdminDashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Editable', 'fa fa-edit');
         yield MenuItem::linkToCrud('Categories', 'fas fa-list', Category::class);
+        yield MenuItem::section('');
+        yield MenuItem::linkToRoute('Back to site', 'fas fa-undo', 'homepage');
 
     }
 }

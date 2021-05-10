@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}} - Order{% endblock %}
+
+{% block body %}
+
+<div id="customer-orders" class="col-lg-9 mt-5">
+              <div class="box">
+                <h1>My orders</h1>
+                <p class="lead">Your orders on one place.</p>
+                <p class="text-muted">If you have any questions, please feel free to <a href="contact.html">contact us</a>, our customer service center is working for you 24/7.</p>
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Order</th>
+                        <th>Date</th>
+                        <th>Restaurant</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for order in orders %}
+                      <tr>
+                        <th># {{order.id}}</th>
+                        <td>{{order.updatedAt|date('d/m/Y H:i')}}</td>
+                        <td><img class="d-none d-lg-inline" src="{{ vich_uploader_asset(order.restaurant, 'imageFile') | imagine_filter('restaurant_mini_thumb') }}" alt="{{order.restaurant.name}}"> {{order.restaurant.name}}</td>
+                        <td>{{order.total/100}} €</td>
+                        <td><a href="{{path('order_detail', {'id' : order.id})}}" class="btn btn-primary btn-sm">View</a></td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                  {% if orders|length > 0 %}
+                    {% set page =  (app.request.get('offset')/offset)+1 %}
+                    <div class="d-flex flex-column justify-content-center">
+                        <span class="align-self-center">( {{ page }} /  {{ ((orders|length / offset) + 1)|round(0,'floor') }} )</span>
+                        <div class="d-flex flex-row justify-content-center">
+                        {% if previous >= 0 %}
+                            <a href="{{ path('order_index', { offset: previous }) }}" class="btn btn-primary">Previous</a>
+                        {% else %}
+                            <div class="btn btn-secondary disabled">Previous</div>
+                        {% endif %}
+                        {% if next < orders|length %}
+                            <a href="{{ path('order_index', { offset: next }) }}" class="btn btn-primary">Next</a>
+                        {% else %}
+                            <div class="btn btn-secondary disabled">Next</div>
+                        {% endif %}
+                        </div>
+                    {% else %}
+                        <div>No orders.</div>
+                    </div>
+                    {% endif %}
+                </div>
+              </div>
+            </div>
+
+{% endblock %}
