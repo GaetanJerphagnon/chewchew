@@ -3,105 +3,301 @@
 
 App\Entity\User:
   user_1:
-    picture: "default-user.png"
-    cart: "@cart_1"
+    picture: "user1.png"
     firstname: "<firstName()>"
     lastname: "<lastName()>"
     address: "<address()>"
     email: "user@gmail.com"
-    slug (unique): "<slug()>"
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$m46/voMLL8qJy9zdOsLf8Q\$SYOjShFLsfYkjwyCas3RW06MQgAMORNyymQV6Hu3DGk'
     birthday: '<dateTimeBetween("-60 years", "-18 years")>'
     lastConnection: '<dateTimeBetween("-20 days", "now")>'
   user_2:
-    picture: "default-user.png"
-    cart: "@cart_2"
+    picture: "user2.png"
     firstname: "<firstName()>"
     lastname: "<lastName()>"
     address: "<address()>"
-    email: "restaurateur@gmail.com"
+    email: "owner@gmail.com"
     roles: ["ROLE_RESTAURATEUR"]
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$m46/voMLL8qJy9zdOsLf8Q\$SYOjShFLsfYkjwyCas3RW06MQgAMORNyymQV6Hu3DGk'
     birthday: '<dateTimeBetween("-60 years", "-18 years")>'
     lastConnection: '<dateTimeBetween("-20 days", "now")>'
   user_3:
-    picture: "default-user.png"
-    cart: "@cart_3"
-    firstname: "<firstName()>"
-    address: "<address()>"
-    lastname: "<lastName()>"
-    email: "user3@google.com"
-    password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$m46/voMLL8qJy9zdOsLf8Q\$SYOjShFLsfYkjwyCas3RW06MQgAMORNyymQV6Hu3DGk'
-    birthday: '<dateTimeBetween("-60 years", "-18 years")>'
-    lastConnection: '<dateTimeBetween("-20 days", "now")>'
-  user_4:
-    picture: "default-user.png"
-    cart: "@cart_4"
+    picture: "user3.png"
     firstname: "<firstName()>"
     lastname: "<lastName()>"
     address: "<address()>"
-    email: "user4@google.com"
-    slug (unique): "<slug()>"
+    email: "owner2@gmail.com"
+    roles: ["ROLE_RESTAURATEUR"]
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$m46/voMLL8qJy9zdOsLf8Q\$SYOjShFLsfYkjwyCas3RW06MQgAMORNyymQV6Hu3DGk'
     birthday: '<dateTimeBetween("-60 years", "-18 years")>'
     lastConnection: '<dateTimeBetween("-20 days", "now")>'
-
-App\Entity\Cart:
-  cart_{1..4}:
-    products: ["@product_*", "@product_*"]
 
 App\Entity\Category:
-  category_{1..10}:
-    name: "<country()>"
+  category_1:
+    name: "Pizza"
+    description: "<text(200)>"
+  category_2:
+    name: "Italian"
+    description: "<text(200)>"
+  category_3:
+    name: "Burger"
+    description: "<text(200)>"
+  category_4:
+    name: "Japanese"
+    description: "<text(200)>"
+  category_5:
+    name: "Fast Food"
+    description: "<text(200)>"
+  category_6:
+    name: "Vegetarian"
+    description: "<text(200)>"
+  category_7:
+    name: "Molecular"
+    description: "<text(200)>"
+  category_8:
+    name: "Mexican"
+    description: "<text(200)>"
+  category_9:
+    name: "Tacos"
+    description: "<text(200)>"
+  category_10:
+    name: "French"
     description: "<text(200)>"
 
 App\Entity\Product:
-  product_1:
-    name: "Banane"
-    description: "<text(200)>"
-    price: "99"
-    picture: "default-product.png"
-    restaurant: "@restaurant_1"
-  product_2:
-    name: "Noix de coco"
-    description: "<text(200)>"
-    price: "550"
-    picture: "default-product.png"
-    restaurant: "@restaurant_1"
-  product_{3..50}:
-    name: "<word()>"
+  product_{1..8}:
+    name: "Pizza <word()>"
     description: "<text(200)>"
     price: "<numberBetween(500, 10000)>"
-    picture: "default-product.png"
-    restaurant: "@restaurant_*"
-
-#App\Entity\OrderHasProducts:
-#  order_has_products_1:
-#    quantity: "25"
-#    products: "@product_1"
-#    orders: "@order_1"
-
-#App\Entity\Order:
-#  order_1:
-#    user: "@user_2"
-#    restaurant: "@restaurant_1"
+    picture: "pizza_product.jpg"
+    restaurant: "@restaurant_1"
+  product_{9..20}:
+    name: "Pizza <word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    picture: "pizza_product.jpg"
+    restaurant: "@restaurant_2"
+  product_{21..25}:
+    name: "Pizza <word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    picture: "pizza_product.jpg"
+    restaurant: "@restaurant_3"
+  product_{26..35}:
+    name: "Burger <word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    picture: "burger_product.jpg"
+    restaurant: "@restaurant_5"
+  product_{36..38}:
+    name: "Burger <word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    picture: "burger_product.jpg"
+    restaurant: "@restaurant_6"
+  product_{39..48}:
+    name: "Burger <word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    picture: "burger_product.jpg"
+    restaurant: "@restaurant_7"
+  product_{49..53}:
+    name: "Taco <word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    picture: "tacos_product.jpg"
+    restaurant: "@restaurant_8"
+  product_{54..60}:
+    name: "Wrap <word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    picture: "wrap_product.jpg"
+    restaurant: "@restaurant_9"
+  product_{61..66}:
+    name: "Sushi <word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    picture: "sushi_product.jpg"
+    restaurant: "@restaurant_10"
+  product_{67..70}:
+    name: "Sushi <word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    picture: "sushi_product.jpg"
+    restaurant: "@restaurant_11"
+  product_{71..80}:
+    name: "Fruit <word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    picture: "fruit_product.jpg"
+    restaurant: "@restaurant_12"
+  product_{81..86}:
+    name: "Fruit <word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    picture: "fruit_product.jpg"
+    restaurant: "@restaurant_13"
+  product_{87..90}:
+    name: "Molecule <word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    picture: "molecule_product.jpg"
+    restaurant: "@restaurant_14"
+  product_{91..95}:
+    name: "Salad <word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    picture: "salad_product.jpg"
+    restaurant: "@restaurant_15"
+  product_{96..100}:
+    name: "Pasta <word()>"
+    description: "<text(200)>"
+    price: "<numberBetween(500, 10000)>"
+    picture: "pasta_product.jpg"
+    restaurant: "@restaurant_16"
 
 App\Entity\Restaurant:
   restaurant_1:
     owner: "@user_2"
-    name: "Le Bananier Restau"
+    name: "Pizzeria 1"
     address: "<address()>"
     phone: "<phoneNumber()>"
-    picture: "default-restaurant.png"
-    categories: ["@category_*", "@category_*"]
+    picture: "pizza.jpg"
+    categories: ["@category_1", "@category_2", "@category_5"]
     description: "<text(200)>"
     is_active: true
-  restaurant_{2..20}:
-    owner: "@user_*"
-    name: "<company()>"
+  restaurant_2:
+    owner: "@user_2"
+    name: "Pizzeria 2"
     address: "<address()>"
     phone: "<phoneNumber()>"
-    picture: "default-restaurant.png"
-    categories: ["@category_*", "@category_*"]
+    picture: "pizza2.jpg"
+    categories: ["@category_1", "@category_2", "@category_5"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_3:
+    owner: "@user_2"
+    name: "Pizzeria 3"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture: "pizza3.jpg"
+    categories: ["@category_1", "@category_2", "@category_5"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_4:
+    owner: "@user_2"
+    name: "Pizzeria 4"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture: "pizza4.jpg"
+    categories: ["@category_1", "@category_2", "@category_5"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_5:
+    owner: "@user_2"
+    name: "Burger fast food 1"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture: "burger.jpg"
+    categories: ["@category_3", "@category_5"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_6:
+    owner: "@user_2"
+    name: "Burger fast food 2"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture: "burger2.jpg"
+    categories: ["@category_3", "@category_5"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_7:
+    owner: "@user_2"
+    name: "Burger 3"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture: "burger3.jpg"
+    categories: ["@category_3", "@category_5", "@category_6"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_8:
+    owner: "@user_3"
+    name: "Mexican Restaurant"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture: "tacos.jpg"
+    categories: ["@category_9", "@category_8"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_9:
+    owner: "@user_3"
+    name: "Wrap restaurant"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture: "tacos2.jpg"
+    categories: ["@category_8"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_10:
+    owner: "@user_3"
+    name: "Sushi restaurant 1"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture: "sushi1.jpg"
+    categories: ["@category_4"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_11:
+    owner: "@user_3"
+    name: "Sushi restaurant 2"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture: "sushi2.jpg"
+    categories: ["@category_4"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_12:
+    owner: "@user_2"
+    name: "Fruit restaurant 1"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture: "fruit1.jpg"
+    categories: ["@category_6"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_13:
+    owner: "@user_2"
+    name: "Fruit restaurant 2"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture: "fruit2.jpg"
+    categories: ["@category_6"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_14:
+    owner: "@user_2"
+    name: "Molecular restaurant 1"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture: "molecule.jpg"
+    categories: ["@category_6"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_15:
+    owner: "@user_3"
+    name: "Salad Restaurant"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture: "salade.jpg"
+    categories: ["@category_6"]
+    description: "<text(200)>"
+    is_active: true
+  restaurant_16:
+    owner: "@user_2"
+    name: "Pasta Restaurant"
+    address: "<address()>"
+    phone: "<phoneNumber()>"
+    picture: "pates.jpg"
+    categories: ["@category_2", "@category_5"]
     description: "<text(200)>"
     is_active: true

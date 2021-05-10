@@ -26,6 +26,7 @@ class RestaurantRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('r')
             ->orderBy('r.createdAt', 'DESC')
+            ->andWhere('r.isActive = 1')
             ->setMaxResults(self::PAGINATOR_PER_PAGE)
             ->setFirstResult($offset)
             ->getQuery()
@@ -38,7 +39,7 @@ class RestaurantRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('r')
             ->innerJoin('r.categories', 'c')
-            ->where('c.slug = :cat_slug')
+            ->andWhere('c.slug = :cat_slug')
             ->setParameter('cat_slug', $value)
             ->setMaxResults(self::PAGINATOR_PER_PAGE)
             ->orderBy('r.createdAt', 'DESC')

@@ -23,10 +23,10 @@
 
                       <div class="col-lg-6 col-md-6 p-2">
                         <div class="product border-5 border-top border-right border-bottom border-blue-light m-0">
-                          <a href="{{ path('restaurant_index', { 'slug': restaurant.slug }) }}"><img src="{{ vich_uploader_asset(restaurant, 'imageFile') | imagine_filter('restaurant_thumb') }}" alt="Photo of {{restaurant.name}}" class="img-fluid img-box"></a>
+                          <a href="{{ path('restaurant_detail', { 'slug': restaurant.slug }) }}"><img src="{{ vich_uploader_asset(restaurant, 'imageFile') | imagine_filter('restaurant_thumb') }}" alt="Photo of {{restaurant.name}}" class="img-fluid img-box"></a>
                           <div class="text m-1 p-0 px-2">
                             <span class="text-warning"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span>
-                            <h4 class="mb-0"><a href="{{ path('restaurant_index', { 'slug': restaurant.slug }) }}"> {{restaurant.name}} </a></h4>
+                            <h4 class="mb-0"><a href="{{ path('restaurant_detail', { 'slug': restaurant.slug }) }}"> {{restaurant.name}} </a></h4>
                             <div class="text-muted">Delivery fee: €€</div>
                           </div>
                         </div>

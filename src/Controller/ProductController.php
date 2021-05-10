@@ -16,6 +16,10 @@ class ProductController extends AbstractController
     #[Route('/{slug}', name: 'detail')]
     public function index(Product $product, Request $request, CartManager $cartManager): Response
     {
+        if (!$product->getRestaurant()->getIsActive()) {
+            throw $this->createNotFoundException('The restaurant does not exist');
+        }
+
         $form = $this->createForm(AddToCartType::class);
 
         $form->handleRequest($request);
