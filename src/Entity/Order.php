@@ -21,7 +21,7 @@ class Order
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="orders", cascade={"persist","remove"})
+     * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="orders", cascade={"persist"})
      */
     private $restaurant;
 

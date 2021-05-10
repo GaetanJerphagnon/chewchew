@@ -3,6 +3,13 @@ liip_imagine:
   # valid drivers options include "gd" or "gmagick" or "imagick"
   driver: "gd"
   filter_sets:
+    restaurant_mini_thumb:
+      quality: 60
+      filters:
+        thumbnail:
+          size: [40, 40]
+          mode: outbound
+
     restaurant_thumb:
       quality: 95
       filters:
@@ -31,4 +38,11 @@ liip_imagine:
       filters:
         thumbnail:
           size: [800, 300]
+          mode: outbound
+
+    user_thumb:
+      quality: 50
+      filters:
+        thumbnail:
+          size: [30, 30]
           mode: outbound

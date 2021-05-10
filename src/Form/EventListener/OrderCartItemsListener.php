@@ -32,11 +32,20 @@ class OrderCartItemsListener implements EventSubscriberInterface
         }
 
         // Is the clear button clicked?
-        if (!$form->get('')->isClicked()) {
+        if (!$form->get('orderHasProducts')->isSubmitted()) {
             return;
         }
 
-        // Clears the cart
-        $cart->removeAllOrderHasProducts();
+        if($cart->getRestaurant() == null){
+
+            // Set the restaurant id
+            $items = $cart->getOrderHasProducts();
+            foreach($items as $item){
+                $restaurant = $item->getProducts()->getRestaurant();
+
+                $cart->setRestaurant($restaurant);
+                break;
+            }
+        }
     }
 }

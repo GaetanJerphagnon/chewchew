@@ -9,16 +9,11 @@
 {% block body %}
 
 
-    <div id="all">
-      <div id="content">
-        <div class="container mt-0">
-          <div class="row">
-            {% include 'front/utils/sidebar.html.twig' %}
             <div class="col-lg-9">
               <div class="box">
                 <h3 class="font-alpha dark-color font-weight-bold">Are you craving? It's not Chew late!</h3>
                 <div class="input-group">
-                  <input type="text" class="form-control border-primary"><span class="input-group-append">
+                  <input type="text" class="form-control border-primary" placeholder="TODO"><span class="input-group-append">
                     <button type="button" class="btn btn-outline-primary">Find your restaurant!</button></span>
                 </div>
               </div>
@@ -57,11 +52,6 @@
               </div>
             </div>
             <!-- /.col-lg-9-->
-          </div>
-        </div>
-      </div>
-    </div>
 
-    {% include 'front/utils/footer.html.twig' %}
 
 {% endblock %}

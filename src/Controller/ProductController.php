@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/product', name: 'product_')]
+#[Route('/products', name: 'product_')]
 class ProductController extends AbstractController
 {
     #[Route('/{slug}', name: 'detail')]
@@ -27,13 +27,12 @@ class ProductController extends AbstractController
             
             $cart = $cartManager->getCurrentCart();
             
-          
             // If there's no restaurant already selected (indirectly via products)
             if($currentItem->getProducts()->getRestaurant()->getId() !== $cartManager->getCurrentRestaurant()){
                 $cartManager->remove($cart);
                 $cart = $cartManager->getCurrentCart();
+                $cart->setRestaurant($cartManager->getCurrentRestaurant());
             }
-            
             
             foreach($cart->getOrderHasProducts() as $item){
 

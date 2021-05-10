@@ -35,9 +35,23 @@
         {% set cart = cart() %}
         {% set cartRestaurantId = cartRestaurantId() %}
 
-        {% dump(cartRestaurantId) %}
+        <div id="all">
+          <div id="content">
+            <div class="container mt-0">
+              <div class="row">
+
+        {% include 'front/utils/sidebar.html.twig' %}
 
         {% block body %}{% endblock %}
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        {% include 'front/utils/footer.html.twig' %}
 
     </body>
 </html>

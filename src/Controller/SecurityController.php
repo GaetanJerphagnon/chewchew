@@ -18,16 +18,16 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('target_path');
         } */
 
-        /* // get the login error if there is one
+        // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]); */
+        return $this->render('front/login/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
 
 
     
-        $error = $authenticationUtils->getLastAuthenticationError();
+        /* $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('security/login.html.twig', [
@@ -42,8 +42,7 @@ class SecurityController extends AbstractController
             'password_label' => 'Password',
             'password_parameter' => 'password',
             'sign_in_label' => 'Log in',
-        ]);
-
+        ]); */
     }
 
     /**

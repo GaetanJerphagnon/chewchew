@@ -6,7 +6,11 @@
     {% if app.user %}
     <div class="card sidebar-menu mb-4">
         <div class="card-header {% if is_granted('ROLE_ADMIN') %}bg-dark text-white{% endif %} {% if is_granted('ROLE_RESTAURATEUR') %}bg-primary text-white{% endif %}">
-        <h3 class="h4 card-title ">Hello {{app.user.firstname}} !</h3>
+        
+        <h3 class="h4 card-title ">
+            <img src="{{ vich_uploader_asset(app.user, 'imageFile') | imagine_filter('user_thumb') }}" alt="Photo of {{app.user.firstname}}" class="img-fluid rounded-circle border border-secondary">
+            Hello {{app.user.firstname}} !
+        </h3>
         {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path('admin') }}" class="text-warning"><i class="fas fa-door-open"></i> Administration</a>
         {% endif %}
@@ -34,7 +38,7 @@
                         {% endif %}
                 {% endif %}
             </a>
-            <a href="customer-orders.html" class="nav-link nav-link-light"><i class="fa fa-list"></i> My orders</a>
+            <a href="{{ path('order_index') }}" class="nav-link nav-link-light {{ app.request.get('_route') == 'order_index' ? 'active-light' : '' }}"><i class="fa fa-list"></i> My orders</a>
             <a href="customer-account.html" class="nav-link nav-link-light"><i class="fa fa-user"></i> My account</a>
             <a href="{{ path('app_logout') }}" class="nav-link nav-link-light"><i class="fa fa-sign-out"></i> Logout</a>
         </ul>
@@ -47,7 +51,7 @@
         </div>
         <div class="card-body customer-section">
         <ul class="nav nav-pills flex-column">
-            <a href="{{ path('cart_index') }}" class="nav-link nav-link-light">
+            <a href="{{ path('cart_index') }}" class="nav-link nav-link-light {{ app.request.get('_route') == 'cart_index' ? 'active-light' : '' }}">
                 <i class="fa fa-shopping-cart"></i>
                  My cart 
                 {% if cart is not null %}
@@ -65,7 +69,7 @@
                     <span class="badge badge-warning ml-4">Empty</span>
                 {% endif %}
             </a>
-            <a href="{{ path('app_login') }}" class="nav-link nav-link-light"><i class="fa fa-user"></i> Login</a>
+            <a href="{{ path('app_login') }}" class="nav-link nav-link-light {{ app.request.get('_route') == 'app_login' ? 'active-light' : '' }}"><i class="fa fa-user"></i> Login</a>
         </ul>
         </div>
     </div>
