@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %} 
+
+{% endblock %}  
+
+{% block title %}{{ parent() }} - Homepage{% endblock %}
+
+{% block body %}
+
+
+            <div class="col-lg-9">
+              <div class="box">
+                <h3 class="font-alpha dark-color font-weight-bold">Are you craving? It's not Chew late!</h3>
+                <div class="input-group">
+                  <input type="text" class="form-control border-primary" placeholder="TODO"><span class="input-group-append">
+                    <button type="button" class="btn btn-outline-primary">Find your restaurant!</button></span>
+                </div>
+              </div>
+              
+
+              <div class="row products">
+                    {% for restaurant in restaurants %}
+
+                      <div class="col-lg-6 col-md-6 p-2">
+                        <div class="product border-5 border-top border-right border-bottom border-blue-light m-0">
+                          <a href="{{ path('restaurant_index', { 'slug': restaurant.slug }) }}"><img src="{{ vich_uploader_asset(restaurant, 'imageFile') | imagine_filter('restaurant_thumb') }}" alt="Photo of {{restaurant.name}}" class="img-fluid img-box"></a>
+                          <div class="text m-1 p-0 px-2">
+                            <span class="text-warning"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></span>
+                            <h4 class="mb-0"><a href="{{ path('restaurant_index', { 'slug': restaurant.slug }) }}"> {{restaurant.name}} </a></h4>
+                            <div class="text-muted">Delivery fee: €€</div>
+                          </div>
+                        </div>
+                      </div>
+                  
+                  {% endfor %}
+              <!-- /.products-->
+              </div>
+              <div class="pages">
+                <p class="loadMore"><a href="#" class="btn btn-primary btn-lg"><i class="fa fa-chevron-down"></i> Load more</a></p>
+                <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+                  <ul class="pagination">
+                    <li class="page-item"><a href="#" aria-label="Previous" class="page-link"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                    <li class="page-item"><a href="#" class="page-link">3</a></li>
+                    <li class="page-item"><a href="#" class="page-link">4</a></li>
+                    <li class="page-item"><a href="#" class="page-link">5</a></li>
+                    <li class="page-item"><a href="#" aria-label="Next" class="page-link"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <!-- /.col-lg-9-->
+
+
+{% endblock %}

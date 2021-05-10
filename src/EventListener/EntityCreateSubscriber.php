@@ -7,6 +7,7 @@ use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\Restaurant;
 use App\Entity\User;
+use App\Manager\CartManager;
 use App\Repository\RestaurantRepository;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
@@ -18,12 +19,19 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class EntityCreateSubscriber implements EventSubscriber
 {
 
+    private $cartManager;
+    private $restaurantReposotiry;
     private $security;
     private $slugger;
-    private $restaurantReposotiry;
 
-    public function __construct(RestaurantRepository $restaurantRepository, Security $security, SluggerInterface $slugger)
+    public function __construct(
+        CartManager $cartManager,
+        RestaurantRepository $restaurantRepository,
+        Security $security,
+        SluggerInterface $slugger
+        )
     {
+        $this->cartManager = $cartManager;
         $this->restaurantReposotiry = $restaurantRepository;
         $this->security = $security;
         $this->slugger = $slugger;
@@ -34,6 +42,7 @@ class EntityCreateSubscriber implements EventSubscriber
         return [
             Events::prePersist,
             Events::preUpdate,
+            Events::postUpdate,
         ];
     }
 
@@ -54,6 +63,17 @@ class EntityCreateSubscriber implements EventSubscriber
 
         if($entity instanceof Order){
             $this->setTotalPrice($entity);
+
+            if($entity->getRestaurant() == null){
+                // Set the restaurant id
+                $items = $entity->getOrderHasProducts();
+                foreach($items as $item){
+                    $restaurant = $item->getProducts()->getRestaurant();
+    
+                    $entity->setRestaurant($restaurant);
+                    break;
+                }
+            }
         }
 
         if($entity instanceof Restaurant && $user = $this->security->getUser() !== null ){
@@ -83,7 +103,34 @@ class EntityCreateSubscriber implements EventSubscriber
         // Must compute total of Order 
         if($entity instanceof Order){
             $this->setTotalPrice($entity);
+
+
+            if($entity->getRestaurant() == null){
+                // Set the restaurant id
+                $items = $entity->getOrderHasProducts();
+                foreach($items as $item){
+                    $restaurant = $item->getProducts()->getRestaurant();
+    
+                    $entity->setRestaurant($restaurant);
+                    break;
+                }
+            }
         }
+    }
+
+    public function postUpdate(LifecycleEventArgs $args): void
+    {
+        $entity = $args->getObject();
+
+        // If an order is
+        if($entity instanceof Order){
+
+            // Clears session
+            if($entity->getStatus() === Order::STATUS_CART && count($entity->getOrderHasProducts()) === 0){
+                $this->cartManager->remove($entity);
+            }
+        }
+
     }
 
     public function setTotalPrice(Order $order)
