@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Order;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,6 +16,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class OrderRepository extends ServiceEntityRepository
 {
+    public const PAGINATOR_PER_PAGE = 8 ;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Order::class);
@@ -33,7 +37,7 @@ class OrderRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findUserCart($user)
+    public function findUserCart(User $user)
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.user = :id')
@@ -46,7 +50,22 @@ class OrderRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    
+
+    public function getOrderPaginator(User $user, int $offset): Paginator
+    {
+        $query = $this->createQueryBuilder('o')
+            ->andWhere('o.user = :id')
+            ->setParameter('id', $user->getId())
+            ->andWhere('o.status = :status')
+            ->setParameter('status', Order::STATUS_ORDERED)
+            ->orderBy('o.updatedAt', 'DESC')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
+            ->getQuery()
+        ;
+
+        return new Paginator($query);
+    }
    
     /**
      * Finds carts that have not been modified since the given date.

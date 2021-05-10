@@ -67,6 +67,7 @@ class Order
      * @var string
      */
     const STATUS_CART = 'cart';
+    const STATUS_ORDERED = 'ordered';
 
     public function __construct()
     {

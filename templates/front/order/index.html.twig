@@ -32,6 +32,26 @@
                     {% endfor %}
                     </tbody>
                   </table>
+                  {% if orders|length > 0 %}
+                    {% set page =  (app.request.get('offset')/offset)+1 %}
+                    <div class="d-flex flex-column justify-content-center">
+                        <span class="align-self-center">( {{ page }} /  {{ ((orders|length / offset) + 1)|round(0,'floor') }} )</span>
+                        <div class="d-flex flex-row justify-content-center">
+                        {% if previous >= 0 %}
+                            <a href="{{ path('order_index', { offset: previous }) }}" class="btn btn-primary">Previous</a>
+                        {% else %}
+                            <div class="btn btn-secondary disabled">Previous</div>
+                        {% endif %}
+                        {% if next < orders|length %}
+                            <a href="{{ path('order_index', { offset: next }) }}" class="btn btn-primary">Next</a>
+                        {% else %}
+                            <div class="btn btn-secondary disabled">Next</div>
+                        {% endif %}
+                        </div>
+                    {% else %}
+                        <div>No orders.</div>
+                    </div>
+                    {% endif %}
                 </div>
               </div>
             </div>
