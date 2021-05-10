@@ -17,7 +17,6 @@
                     <button type="button" class="btn btn-outline-primary">Find your restaurant!</button></span>
                 </div>
               </div>
-              
 
               <div class="row products">
                     {% for restaurant in restaurants %}
@@ -35,9 +34,50 @@
                   
                   {% endfor %}
               <!-- /.products-->
+
+                {% if restaurants|length > 0 %}
+                {% set page =  (app.request.get('offset')/offset)+1 %}
+
+                <div class="d-flex flex-column justify-content-center my-3">
+                    {% if app.request.get('_route') == 'homepage' %}
+                      <span class="align-self-center">( {{ page }} /  {{ ((restaurants|length / offset) + 1)|round(0,'floor') }} )</span>
+                      <div class="d-flex flex-row justify-content-center">
+                        {% if previous >= 0 %}
+                            <a href="{{ path('homepage', { offset: previous }) }}" class="btn btn-primary">Previous</a>
+                        {% else %}
+                            <div class="btn btn-secondary disabled">Previous</div>
+                        {% endif %}
+                        {% if next < restaurants|length %}
+                            <a href="{{ path('homepage', { offset: next }) }}" class="btn btn-primary">Next</a>
+                        {% else %}
+                            <div class="btn btn-secondary disabled">Next</div>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+
+                    {% if app.request.get('_route') == 'homepage_category' %}
+                      <span class="align-self-center">( {{ page }} /  {{ ((restaurants|length / offset) + 1)|round(0,'floor') }} )</span>
+                      <div class="d-flex flex-row justify-content-center">
+                        {% if previous >= 0 %}
+                            <a href="{{ path('homepage_category', { 'slug': slug, offset: previous }) }}" class="btn btn-primary">Previous</a>
+                        {% else %}
+                            <div class="btn btn-secondary disabled">Previous</div>
+                        {% endif %}
+                        {% if next < restaurants|length %}
+                            <a href="{{ path('homepage_category', { 'slug': slug ,offset: next }) }}" class="btn btn-primary">Next</a>
+                        {% else %}
+                            <div class="btn btn-secondary disabled">Next</div>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+
+                {% else %}
+                    <div>No restaurants.</div>
+                </div>
+                {% endif %}
               </div>
-              <div class="pages">
-                <p class="loadMore"><a href="#" class="btn btn-primary btn-lg"><i class="fa fa-chevron-down"></i> Load more</a></p>
+              
+              {# <div class="pages">
                 <nav aria-label="Page navigation example" class="d-flex justify-content-center">
                   <ul class="pagination">
                     <li class="page-item"><a href="#" aria-label="Previous" class="page-link"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
@@ -50,7 +90,7 @@
                   </ul>
                 </nav>
               </div>
-            </div>
+            </div> #}
             <!-- /.col-lg-9-->
 
 

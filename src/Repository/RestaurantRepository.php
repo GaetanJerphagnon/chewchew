@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Restaurant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -15,38 +15,38 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RestaurantRepository extends ServiceEntityRepository
 {
+    public const PAGINATOR_PER_PAGE = 6 ;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Restaurant::class);
     }
 
-    // /**
-    //  * @return Restaurant[] Returns an array of Restaurant objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getRestaurantPaginator(int $offset): Paginator
     {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
+        $query = $this->createQueryBuilder('r')
+            ->orderBy('r.createdAt', 'DESC')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
             ->getQuery()
-            ->getResult()
         ;
-    }
-    */
 
-    
-    public function findByCategory($value)
+        return new Paginator($query);
+    }
+
+    public function findByCategory($value, int $offset): Paginator
     {
-        return $this->createQueryBuilder('r')
+        $query = $this->createQueryBuilder('r')
             ->innerJoin('r.categories', 'c')
             ->where('c.slug = :cat_slug')
             ->setParameter('cat_slug', $value)
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->orderBy('r.createdAt', 'DESC')
+            ->setFirstResult($offset)
             ->getQuery()
-            ->getResult()
         ;
+        
+        return new Paginator($query);
     }
    
 }
