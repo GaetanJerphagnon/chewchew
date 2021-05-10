@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Manager\CartManager;
 use App\Repository\RestaurantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,8 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomepageController extends AbstractController
 {
     #[Route('/', name: '')]
-    public function index(RestaurantRepository $restaurantRepository, Request $request): Response
+    public function index(CartManager $cartManager, RestaurantRepository $restaurantRepository, Request $request): Response
     {
+        $cart = $cartManager->getCurrentCart();
+
         $offset = max(0, $request->query->getInt('offset', 0));
         $paginator = $restaurantRepository->getRestaurantPaginator($offset);
 

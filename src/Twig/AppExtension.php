@@ -82,6 +82,6 @@ class AppExtension extends AbstractExtension
 
     public function getRestaurantNumber():int
     {
-        return count($this->restaurantRepository->findAll());
+        return count($this->restaurantRepository->findBy(['isActive' => '1']));
     }
 }

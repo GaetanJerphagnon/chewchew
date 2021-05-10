@@ -12,7 +12,7 @@
 <div class="box mt-5">
     <div id="post-content">
     <p class="text-center"><img src="{{ vich_uploader_asset(product, 'imageFile') | imagine_filter('product_detail') }}" alt="Photo of {{product.name}}" class="img-fluid"></p>
-    <a href="{{ path('restaurant_index', {'slug' : product.restaurant.slug}) }}"><i class="fa fa-arrow-left mb-4"></i> Back to {{product.restaurant.name}} </a>
+    <a href="{{ path('restaurant_detail', {'slug' : product.restaurant.slug}) }}"><i class="fa fa-arrow-left mb-4"></i> Back to {{product.restaurant.name}} </a>
     <h2 class="mb-4">{{product.name|capitalize}}</h2>
 <h3 class="mb-4"><strong>{{product.price/100}} €</strong></h3>
     <blockquote class="blockquote mb-2">

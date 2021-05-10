@@ -48,7 +48,7 @@ class RestaurantCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions 
     {
-        // Default actions
+        // Default Actions
         $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
 
         // Update Actions
@@ -58,7 +58,7 @@ class RestaurantCrudController extends AbstractCrudController
 
         if($this->isGranted('ROLE_RESTAURATEUR')){
 
-            $viewProducts = Action::new('viewOrders', 'View Orders', 'fa fa-money-bill-wave')
+            $viewProducts = Action::new('viewOrders', 'Orders TODO', 'fa fa-money-bill-wave')
                 ->addCssClass('btn btn-lg btn-info bg-light text-dark mt-1 px-5 py-1 my-1 mx-1')
                 ->linkToCrudAction('viewOrders');
             
