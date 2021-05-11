@@ -15,13 +15,13 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
-/public/uploads/pictures/users/*
+!/public/uploads/pictures/users/*
 !/public/uploads/pictures/users/default-user.png
 
-/public/uploads/pictures/restaurants/*
+!/public/uploads/pictures/restaurants/*
 !/public/uploads/pictures/restaurants/default-restaurant.png
 
-/public/uploads/pictures/products/*
+!/public/uploads/pictures/products/*
 !/public/uploads/pictures/products/default-product.png
 
 ###> symfony/webpack-encore-bundle ###
