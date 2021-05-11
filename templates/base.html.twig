@@ -20,6 +20,15 @@
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-5L3BH1MTM1"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-5L3BH1MTM1');
+            </script>
                 <!-- JavaScript files-->
             <script src="{{asset('distribution/vendor/jquery/jquery.min.js')}}"></script>
             <script src="{{asset('distribution/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
