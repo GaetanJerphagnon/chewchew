@@ -124,12 +124,11 @@ class RestaurantCrudController extends AbstractCrudController
     
     public function configureFields(string $pageName): iterable
     {
+        $products = AssociationField::new('products', 'Products');
+        $categories = AssociationField::new('categories', 'Categories');
 
         if($pageName === Crud::PAGE_DETAIL){
             $products = ArrayField::new('products', 'Products');
-        } else {
-            $products = AssociationField::new('products', 'Products');
-            $categories = AssociationField::new('categories', 'Categories');
         }
 
         if($pageName === Crud::PAGE_INDEX){
